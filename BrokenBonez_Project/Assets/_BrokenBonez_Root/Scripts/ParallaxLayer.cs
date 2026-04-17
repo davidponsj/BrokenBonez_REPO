@@ -66,7 +66,7 @@ public class ParallaxLayer : MonoBehaviour
         // Reciclar copias
         foreach (SpriteRenderer copia in copias)
         {
-            if (copia.transform.position.x < -anchoCopia * 1.5f)
+            if (copia.transform.position.x < -anchoCopia * 1.8f)
             {
                 copia.transform.position = new Vector3(maxX + anchoCopia, yOffset, 0);
 
