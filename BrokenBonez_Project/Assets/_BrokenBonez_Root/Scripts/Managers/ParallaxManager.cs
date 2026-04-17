@@ -4,7 +4,6 @@ public class ParallaxManager : MonoBehaviour
 {
     [Header("Parallax Parameters")]
     [SerializeField] float globalSpeed = 1f;
-
     [Header("Parallax References")]
     [SerializeField] ParallaxLayer[] parallaxLayers;
 
@@ -14,5 +13,11 @@ public class ParallaxManager : MonoBehaviour
         {
             parallaxLayer.speedLayer = globalSpeed;
         }
+    }
+
+    // WorldScroller llama esto cada frame
+    public void SetSpeed(float speed)
+    {
+        globalSpeed = speed;
     }
 }
