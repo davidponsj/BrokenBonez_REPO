@@ -5,6 +5,7 @@ public class ParallaxLayer : MonoBehaviour
     [Header("Parallax Parameters")]
     [SerializeField] float speedMultiplier;
     [SerializeField] float yOffset;
+    [SerializeField] float xOffset;
     float speed;
     [HideInInspector] public float speedLayer;
 
@@ -33,7 +34,7 @@ public class ParallaxLayer : MonoBehaviour
         // Inicializar posiciones y sprites
         for (int i = 0; i < copias.Length; i++)
         {
-            copias[i].transform.position = new Vector3(i * anchoCopia, yOffset, 0);
+            copias[i].transform.position = new Vector3(i * anchoCopia + xOffset, yOffset, 0);
             copias[i].sprite = sprites[i % sprites.Length];
         }
 
@@ -65,7 +66,7 @@ public class ParallaxLayer : MonoBehaviour
         // Reciclar copias
         foreach (SpriteRenderer copia in copias)
         {
-            if (copia.transform.position.x < -anchoCopia)
+            if (copia.transform.position.x < -anchoCopia * 1.5f)
             {
                 copia.transform.position = new Vector3(maxX + anchoCopia, yOffset, 0);
 
