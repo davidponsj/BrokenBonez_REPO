@@ -19,12 +19,14 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField][Range(0f, 1f)] float frontLimitPercent = 0.55f;
     [SerializeField][Range(0f, 1f)] float backLimitPercent = 0.25f;
     [SerializeField] float minScrollSpeed = 2f;
+    [SerializeField] float limitMargin = 0.05f;
 
     [Header("Jump / Trick")]
     [SerializeField] float jumpUpSpeed = 8f;
     [SerializeField] float ascendGravity = 15f;
     [SerializeField] float floatDuration = 2.5f;
     [SerializeField] float landingGravity = 30f;
+    [SerializeField] float jumpRotationResetSpeed = 5f;
 
     [Header("Landing")]
     [SerializeField] float safeLandingAngleMin = -45f;
@@ -79,25 +81,21 @@ public class PlayerMovement : MonoBehaviour
 
         float horizontalVel = playerInputs.isAccelerating ? horizontalSpeed : -passiveRetreatSpeed;
 
-        // Límites de cámara: forzar dentro si se sale y cortar velocidad
+        // Límites de cámara
         float frontX = cam.ViewportToWorldPoint(new Vector3(frontLimitPercent, 0, 0)).x;
         float backX = cam.ViewportToWorldPoint(new Vector3(backLimitPercent, 0, 0)).x;
 
-        if (rb.position.x < backX)
-        {
-            rb.position = new Vector2(backX, rb.position.y);
-            horizontalVel = 0f;
-        }
-        else if (rb.position.x > frontX)
-        {
-            rb.position = new Vector2(frontX, rb.position.y);
-            horizontalVel = 0f;
-        }
-
+        // Cortar velocidad si empuja contra el límite
         if (rb.position.x >= frontX && horizontalVel > 0) horizontalVel = 0f;
         if (rb.position.x <= backX && horizontalVel < 0) horizontalVel = 0f;
 
-        // Gravedad constante, el motor físico detiene al tocar suelo
+        // Solo forzar posición si se pasó claramente del límite
+        if (rb.position.x < backX - limitMargin)
+            rb.position = new Vector2(backX, rb.position.y);
+        else if (rb.position.x > frontX + limitMargin)
+            rb.position = new Vector2(frontX, rb.position.y);
+
+        // Gravedad constante
         float newVelY = rb.linearVelocity.y - gravity * Time.fixedDeltaTime;
         if (newVelY < -gravity) newVelY = -gravity;
 
@@ -108,7 +106,6 @@ public class PlayerMovement : MonoBehaviour
         if (groundedThisFrame && !playerInputs.IsRotating())
             AlignToGround();
 
-        // Solo evaluamos aterrizaje si venimos de un salto real
         if (groundedThisFrame && wasAirborne && justJumped)
         {
             OnLand();
@@ -128,12 +125,20 @@ public class PlayerMovement : MonoBehaviour
         rb.linearVelocity = new Vector2(0f, verticalSpeed);
         verticalSpeed -= ascendGravity * Time.fixedDeltaTime;
 
+        // Rotación gradual a 0 durante el ascenso
+        transform.rotation = Quaternion.Lerp(
+            transform.rotation,
+            Quaternion.identity,
+            jumpRotationResetSpeed * Time.fixedDeltaTime
+        );
+
         if (verticalSpeed <= 0f)
         {
             isJumping = false;
             isFloating = true;
             floatTimer = 0f;
             verticalSpeed = 0f;
+            transform.rotation = Quaternion.identity;
         }
     }
 
@@ -170,6 +175,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (rayAbajo.collider != null)
         {
+            Debug.Log($"ATERRIZAJE - horizontalSpeed: {horizontalSpeed} scrollSpeed: {worldScroller.scrollSpeed}");
             isFalling = false;
             isGrounded = true;
             verticalSpeed = 0f;
