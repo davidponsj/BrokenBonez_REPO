@@ -7,15 +7,21 @@ public class WorldScroller : MonoBehaviour
 
     [Header("References")]
     [SerializeField] ParallaxManager parallaxManager;
-    [SerializeField] Transform[] groundObjects;
+    [SerializeField] Rigidbody2D[] groundObjects;
+
+    void FixedUpdate()
+    {
+        foreach (Rigidbody2D ground in groundObjects)
+        {
+            if (ground == null) continue;
+            Vector2 newPos = ground.position + Vector2.left * scrollSpeed * Time.fixedDeltaTime;
+            ground.MovePosition(newPos);
+        }
+    }
 
     void Update()
     {
-        foreach (Transform ground in groundObjects)
-        {
-            ground.position += Vector3.left * scrollSpeed * Time.deltaTime;
-        }
-
+        // El parallax sigue en Update porque es solo visual, no físico
         parallaxManager.SetSpeed(scrollSpeed);
     }
 }
