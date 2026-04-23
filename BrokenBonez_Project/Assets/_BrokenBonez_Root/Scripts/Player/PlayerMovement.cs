@@ -184,9 +184,7 @@ public class PlayerMovement : MonoBehaviour
 
             if (rampSurface.collider != null)
             {
-                float targetY = rampSurface.point.y + (playerCollider != null
-                                ? playerCollider.size.y * 0.5f
-                                : rayAbajoOffset);
+                float targetY = rampSurface.point.y + rayAbajoOffset;
                 rb.position = new Vector2(rb.position.x, targetY);
             }
             else
