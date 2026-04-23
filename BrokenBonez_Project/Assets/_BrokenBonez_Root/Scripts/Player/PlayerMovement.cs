@@ -1,32 +1,55 @@
-﻿using UnityEngine;
+using System.Collections;
+using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMovement : MonoBehaviour
 {
-    [Header("Movement Parameters")]
+    #region Inspector Parameters
+
+    [Header("Movement")]
     public float horizontalSpeed = 5f;
     [SerializeField] float gravity = 20f;
+    [SerializeField] float passiveRetreatSpeed = 2f;
+    [SerializeField] float brakeRetreatSpeed = 5f;
+    [SerializeField] float brakeReleaseBoost = 3f;
+
+    [Header("Raycasts")]
     [SerializeField] float longitudDerecha = 0.5f;
     [SerializeField] float longitudAbajo = 0.5f;
     [SerializeField] float rayAbajoOffset = 0.95f;
-    [SerializeField] float passiveRetreatSpeed = 2f;
 
-    [Header("Ramp Alignment")]
-    [SerializeField] float rampAlignTolerance = 25f;
-    [SerializeField] float rampSnapSpeed = 20f;
+    [Header("Ground Alignment & Friction")]
+    [SerializeField] float groundAlignSpeed = 15f;
+    [SerializeField] float comfortAngle = 5f;
+    [SerializeField] float maxPenaltyAngle = 30f;
+    [SerializeField] float maxFrictionForce = 10f;
+
+    [Header("Ramp")]
+    [SerializeField] float rampAngle = 40f;
+    [SerializeField] float rampSnapSpeed = 40f;
+    [SerializeField] float rampExitSnapSpeed = 20f;
 
     [Header("Screen Limits")]
-    [SerializeField] Camera cam;
-    [SerializeField][Range(0f, 1f)] float frontLimitPercent = 0.55f;
-    [SerializeField][Range(0f, 1f)] float backLimitPercent = 0.25f;
-    [SerializeField] float minScrollSpeed = 2f;
+    [SerializeField, Range(0f, 1f)] float frontLimitPercent = 0.55f;
+    [SerializeField, Range(0f, 1f)] float backLimitPercent = 0.25f;
     [SerializeField] float limitMargin = 0.05f;
 
-    [Header("Jump / Trick")]
+    [Header("World Scroll")]
+    [SerializeField] float minScrollSpeed = 2f;
+    [SerializeField] float scrollMultiplier = 0.5f;
+
+    [Header("Jump - Ascend")]
     [SerializeField] float jumpUpSpeed = 8f;
     [SerializeField] float ascendGravity = 15f;
-    [SerializeField] float floatDuration = 2.5f;
-    [SerializeField] float landingGravity = 30f;
     [SerializeField] float jumpRotationResetSpeed = 5f;
+
+    [Header("Jump - Float")]
+    [SerializeField] float baseFloatDuration = 1.5f;
+    [SerializeField] float maxFloatDuration = 3.5f;
+    [SerializeField] float speedForMaxFloat = 20f;
+
+    [Header("Jump - Fall")]
+    [SerializeField] float landingGravity = 30f;
 
     [Header("Landing")]
     [SerializeField] float safeLandingAngleMin = -45f;
@@ -34,27 +57,48 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float landingSnapSpeed = 10f;
 
     [Header("References")]
+    [SerializeField] Camera cam;
     [SerializeField] GameObject der;
     [SerializeField] GameObject down;
     [SerializeField] WorldScroller worldScroller;
     [SerializeField] LayerMask groundLayer;
     [SerializeField] PlayerInputs playerInputs;
+    [SerializeField] BoxCollider2D playerCollider;
 
-    // Estados
-    public bool isGrounded = false;
-    public bool isJumping = false;
-    public bool isFloating = false;
-    public bool isFalling = false;
+    #endregion
 
-    bool wasAirborne = false;
-    bool justJumped = false;
-    float floatTimer = 0f;
-    float verticalSpeed = 0f;
+    #region Public State (read-only from outside)
 
-    RaycastHit2D rayDer;
-    RaycastHit2D rayAbajo;
+    [HideInInspector] public bool isGrounded;
+    [HideInInspector] public bool isJumping;
+    [HideInInspector] public bool isFloating;
+    [HideInInspector] public bool isFalling;
+    [HideInInspector] public bool isOnRamp;
+
+    // Set externally by PlayerInputs so ground movement can differentiate
+    // "brake held" (fast retreat) from "no input" (slow passive retreat).
+    [HideInInspector] public bool isBraking;
+
+    #endregion
+
+    #region Private State
 
     Rigidbody2D rb;
+
+    float verticalSpeed;
+    float floatTimer;
+    float currentFloatDuration;
+    bool justJumped;
+    int rampContactCount;
+
+    Coroutine landingCoroutine;
+
+    RaycastHit2D rightHit;
+    RaycastHit2D groundHit;
+
+    #endregion
+
+    #region Unity Loop
 
     void Awake()
     {
@@ -63,74 +107,209 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (isJumping) HandleJump();
-        else if (isFloating) HandleFloat();
-        else if (isFalling) HandleFall();
-        else HandleGround();
+        UpdateRaycasts();
+
+        if (isJumping)       TickAscend();
+        else if (isFloating) TickFloat();
+        else if (isFalling)  TickFall();
+        else                 TickGround();
+
+        UpdateWorldScroll();
     }
 
-    // ── Suelo ───────────────────────────────────────────────────
-    void HandleGround()
+    #endregion
+
+    #region Sensing
+
+    void UpdateRaycasts()
     {
-        rayDer = Physics2D.Raycast(der.transform.position, transform.right, longitudDerecha, groundLayer);
+        // Raycast suelo — sin cambios
+        Vector2 groundOrigin = rb.position + Vector2.down * rayAbajoOffset;
+        groundHit = Physics2D.Raycast(groundOrigin, Vector2.down, longitudAbajo, groundLayer);
 
-        Vector2 rayOrigin = rb.position + Vector2.down * rayAbajoOffset;
-        rayAbajo = Physics2D.Raycast(rayOrigin, Vector2.down, longitudAbajo, groundLayer);
+        // Reemplaza el rightHit simple por un BoxCast frontal
+        if (playerCollider != null)
+        {
+            Vector2 boxCenter = rb.position;
+            Vector2 boxSize = playerCollider.size * 0.9f; // ligeramente menor para evitar falsos positivos
+            rightHit = Physics2D.BoxCast(boxCenter, boxSize, 0f,
+                                         Vector2.right, longitudDerecha, groundLayer);
+        }
+        else if (der != null)
+        {
+            rightHit = Physics2D.Raycast(der.transform.position,
+                                         transform.right, longitudDerecha, groundLayer);
+        }
 
-        bool groundedThisFrame = rayAbajo.collider != null;
+        // Activar isOnRamp si el BoxCast toca algo con tag Ramp
+        if (!isJumping && !isFloating && !isFalling)
+        {
+            bool rampAhead = rightHit.collider != null
+                          && rightHit.collider.CompareTag("Ramp");
+            if (rampAhead && !isOnRamp)
+            {
+                isOnRamp = true;
+                rampContactCount = 1;
+            }
+        }
+    }
 
-        float horizontalVel = playerInputs.isAccelerating ? horizontalSpeed : -passiveRetreatSpeed;
+    #endregion
 
-        // Límites de cámara
-        float frontX = cam.ViewportToWorldPoint(new Vector3(frontLimitPercent, 0, 0)).x;
-        float backX = cam.ViewportToWorldPoint(new Vector3(backLimitPercent, 0, 0)).x;
+    #region Ground State
 
-        // Cortar velocidad si empuja contra el límite
-        if (rb.position.x >= frontX && horizontalVel > 0) horizontalVel = 0f;
-        if (rb.position.x <= backX && horizontalVel < 0) horizontalVel = 0f;
+    void TickGround()
+    {
+        bool groundedThisFrame = groundHit.collider != null;
 
-        // Solo forzar posición si se pasó claramente del límite
+        float horizontalVel = ComputeGroundHorizontalVelocity();
+        horizontalVel = ApplyCameraClamp(horizontalVel);
+
+        Vector2 delta;
+        if (isOnRamp)
+        {
+            float rad = rampAngle * Mathf.Deg2Rad;
+            Vector2 rampDir = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
+            delta = rampDir * horizontalVel * Time.fixedDeltaTime;
+            rb.MovePosition(rb.position + delta);
+
+            // BoxCast hacia abajo para encontrar la superficie real de la rampa
+            RaycastHit2D rampSurface = Physics2D.BoxCast(
+                rb.position,
+                new Vector2(0.3f, 0.1f),
+                0f,
+                Vector2.down,
+                rayAbajoOffset + 1.5f,
+                groundLayer);
+
+            if (rampSurface.collider != null)
+            {
+                float targetY = rampSurface.point.y + (playerCollider != null
+                                ? playerCollider.size.y * 0.5f
+                                : rayAbajoOffset);
+                rb.position = new Vector2(rb.position.x, targetY);
+            }
+            else
+            {
+                // No hay suelo bajo nosotros: fin de la rampa
+                isOnRamp = false;
+                rampContactCount = 0;
+            }
+        }
+        else
+        {
+            float verticalVel = groundedThisFrame ? 0f : -gravity;
+            delta = new Vector2(horizontalVel, verticalVel) * Time.fixedDeltaTime;
+            rb.MovePosition(rb.position + delta);
+        }
+
+        if (!isOnRamp && groundedThisFrame)
+            ApplyAngleFriction();
+
+        UpdateGroundRotation(groundedThisFrame);
+
+        if (groundedThisFrame && justJumped)
+        {
+            justJumped = false;
+            OnLand();
+        }
+
+        isGrounded = groundedThisFrame;
+    }
+
+    float ComputeGroundHorizontalVelocity()
+    {
+        if (playerInputs.isAccelerating) return horizontalSpeed;
+        if (isBraking) return -brakeRetreatSpeed;
+        return -passiveRetreatSpeed;
+    }
+
+    float ApplyCameraClamp(float horizontalVel)
+    {
+        float frontX = cam.ViewportToWorldPoint(new Vector3(frontLimitPercent, 0f, 0f)).x;
+        float backX  = cam.ViewportToWorldPoint(new Vector3(backLimitPercent,  0f, 0f)).x;
+
+        if (rb.position.x >= frontX && horizontalVel > 0f) horizontalVel = 0f;
+        if (rb.position.x <= backX  && horizontalVel < 0f) horizontalVel = 0f;
+
         if (rb.position.x < backX - limitMargin)
             rb.position = new Vector2(backX, rb.position.y);
         else if (rb.position.x > frontX + limitMargin)
             rb.position = new Vector2(frontX, rb.position.y);
 
-        // Gravedad constante
-        float newVelY = rb.linearVelocity.y - gravity * Time.fixedDeltaTime;
-        if (newVelY < -gravity) newVelY = -gravity;
-
-        rb.linearVelocity = new Vector2(horizontalVel, newVelY);
-
-        worldScroller.scrollSpeed = Mathf.Max(horizontalSpeed, minScrollSpeed);
-
-        if (groundedThisFrame && !playerInputs.IsRotating())
-            AlignToGround();
-
-        if (groundedThisFrame && wasAirborne && justJumped)
-        {
-            OnLand();
-            justJumped = false;
-        }
-
-        wasAirborne = !groundedThisFrame;
-        isGrounded = groundedThisFrame;
+        return horizontalVel;
     }
 
-    // ── Fase 1: ascenso ─────────────────────────────────────────
-    void HandleJump()
+    void ApplyAngleFriction()
     {
-        isGrounded = false;
-        KeepWorldScrolling();
+        Vector2 normal = groundHit.normal;
+        float groundAngle = Mathf.Atan2(normal.y, normal.x) * Mathf.Rad2Deg - 90f;
+        float currentAngle = NormalizeAngle(transform.eulerAngles.z);
+        float diff = Mathf.Abs(Mathf.DeltaAngle(currentAngle, groundAngle));
 
-        rb.linearVelocity = new Vector2(0f, verticalSpeed);
+        if (diff <= comfortAngle) return;
+
+        float t = Mathf.InverseLerp(comfortAngle, maxPenaltyAngle, diff);
+        float friction = maxFrictionForce * t;
+        horizontalSpeed = Mathf.Max(horizontalSpeed - friction * Time.fixedDeltaTime, minScrollSpeed);
+    }
+
+    void UpdateGroundRotation(bool groundedThisFrame)
+    {
+        // Ramps: force the canonical 40° orientation via a fast Lerp.
+        if (isOnRamp)
+        {
+            Quaternion target = Quaternion.Euler(0f, 0f, rampAngle);
+            transform.rotation = Quaternion.Lerp(transform.rotation, target,
+                rampSnapSpeed * Time.fixedDeltaTime);
+            return;
+        }
+
+        // Player is manually rotating: let PlayerInputs own the rotation this frame.
+        if (playerInputs.IsRotating()) return;
+
+        // Otherwise, align to the ground normal (smoothly).
+        if (!groundedThisFrame) return;
+
+        Vector2 normal = groundHit.normal;
+        float targetAngle = Mathf.Atan2(normal.y, normal.x) * Mathf.Rad2Deg - 90f;
+        Quaternion targetRot = Quaternion.Euler(0f, 0f, targetAngle);
+        transform.rotation = Quaternion.Lerp(transform.rotation, targetRot,
+            groundAlignSpeed * Time.fixedDeltaTime);
+    }
+
+    #endregion
+
+    #region Jump Phases
+
+    public void ActivateJump()
+    {
+        isGrounded  = false;
+        isJumping   = true;
+        isFloating  = false;
+        isFalling   = false;
+        isOnRamp    = false;
+        justJumped  = true;
+        floatTimer  = 0f;
+        verticalSpeed = jumpUpSpeed;
+        rampContactCount = 0;
+
+        // Air time scales with how fast we were going when we took off.
+        float t = Mathf.Clamp01(horizontalSpeed / speedForMaxFloat);
+        currentFloatDuration = Mathf.Lerp(baseFloatDuration, maxFloatDuration, t);
+    }
+
+    // Phase 1: ascending. Vertical speed decays via ascendGravity until it
+    // crosses zero, then we transition to float. Rotation eases back to 0.
+    void TickAscend()
+    {
+        Vector2 delta = new Vector2(0f, verticalSpeed * Time.fixedDeltaTime);
+        rb.MovePosition(rb.position + delta);
+
         verticalSpeed -= ascendGravity * Time.fixedDeltaTime;
 
-        // Rotación gradual a 0 durante el ascenso
-        transform.rotation = Quaternion.Lerp(
-            transform.rotation,
-            Quaternion.identity,
-            jumpRotationResetSpeed * Time.fixedDeltaTime
-        );
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.identity,
+            jumpRotationResetSpeed * Time.fixedDeltaTime);
 
         if (verticalSpeed <= 0f)
         {
@@ -142,16 +321,13 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    // ── Fase 2: flotación ───────────────────────────────────────
-    void HandleFloat()
+    // Phase 2: suspended in the air while the trick window is open.
+    // Future trick combos will be read during this state; rotation is locked here.
+    void TickFloat()
     {
-        isGrounded = false;
-        KeepWorldScrolling();
-
-        rb.linearVelocity = Vector2.zero;
         floatTimer += Time.fixedDeltaTime;
 
-        if (floatTimer >= floatDuration)
+        if (floatTimer >= currentFloatDuration)
         {
             isFloating = false;
             isFalling = true;
@@ -159,105 +335,81 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    // ── Fase 3: caída ───────────────────────────────────────────
-    void HandleFall()
+    // Phase 3: falling. Gravity accumulates and the ground raycast triggers landing.
+    void TickFall()
     {
-        isGrounded = false;
-        KeepWorldScrolling();
-
         verticalSpeed += landingGravity * Time.fixedDeltaTime;
-        rb.linearVelocity = new Vector2(0f, -verticalSpeed);
+        Vector2 delta = new Vector2(0f, -verticalSpeed * Time.fixedDeltaTime);
+        rb.MovePosition(rb.position + delta);
 
-        if (verticalSpeed < 2f) return;
+        // Usar CircleCast con radio pequeño para no perderse el suelo
+        Vector2 groundOrigin = rb.position + Vector2.down * rayAbajoOffset;
+        RaycastHit2D fallHit = Physics2D.CircleCast(
+            groundOrigin, 0.15f, Vector2.down, longitudAbajo + 0.5f, groundLayer);
 
-        Vector2 rayOrigin = rb.position + Vector2.down * rayAbajoOffset;
-        rayAbajo = Physics2D.Raycast(rayOrigin, Vector2.down, longitudAbajo, groundLayer);
-
-        if (rayAbajo.collider != null)
+        if (fallHit.collider != null)
         {
-            Debug.Log($"ATERRIZAJE - horizontalSpeed: {horizontalSpeed} scrollSpeed: {worldScroller.scrollSpeed}");
             isFalling = false;
             isGrounded = true;
             verticalSpeed = 0f;
+            // Snap al suelo para evitar que se quede flotando
+            rb.position = new Vector2(rb.position.x,
+                fallHit.point.y + rayAbajoOffset);
             OnLand();
             justJumped = false;
         }
     }
 
-    // ── Activación del salto desde RampTrigger ──────────────────
-    public void ActivateJump()
+    #endregion
+
+    #region Scroll
+
+    void UpdateWorldScroll()
     {
-        isGrounded = false;
-        isJumping = true;
-        isFloating = false;
-        isFalling = false;
-        wasAirborne = true;
-        justJumped = true;
-        floatTimer = 0f;
-        verticalSpeed = jumpUpSpeed;
+        float scroll = Mathf.Max(horizontalSpeed * scrollMultiplier, minScrollSpeed);
+        worldScroller.scrollSpeed = scroll;
     }
 
-    void KeepWorldScrolling()
+    #endregion
+
+    #region Ramp Collision
+
+    void OnCollisionEnter2D(Collision2D collision) { }
+
+    void OnCollisionExit2D(Collision2D collision)
     {
-        worldScroller.scrollSpeed = Mathf.Max(horizontalSpeed, minScrollSpeed);
-    }
-
-    // ── Alineación con el suelo ────────────────────────────────
-    void AlignToGround()
-    {
-        Vector2 normal = rayAbajo.normal;
-        if (rayDer.collider != null)
-            normal = Vector2.Lerp(normal, rayDer.normal, 0.4f);
-
-        float angle = Mathf.Atan2(normal.y, normal.x) * Mathf.Rad2Deg - 90f;
-        Quaternion targetRot = Quaternion.Euler(0f, 0f, angle);
-        transform.rotation = Quaternion.Lerp(transform.rotation, targetRot, 15f * Time.fixedDeltaTime);
-    }
-
-    // ── Colisión contra rampas ─────────────────────────────────
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (((1 << collision.gameObject.layer) & groundLayer) == 0) return;
-        if (isJumping || isFloating) return;
-
-        Vector2 normal = collision.GetContact(0).normal;
-        float surfaceAngle = Mathf.Atan2(normal.y, normal.x) * Mathf.Rad2Deg - 90f;
-
-        float currentAngle = transform.eulerAngles.z;
-        if (currentAngle > 180f) currentAngle -= 360f;
-
-        float angleDiff = Mathf.DeltaAngle(currentAngle, surfaceAngle);
-
-        if (Mathf.Abs(surfaceAngle) < 5f) return;
-
-        if (Mathf.Abs(angleDiff) <= rampAlignTolerance)
-            StartCoroutine(SnapToAngle(surfaceAngle));
-        else
-            OnBail();
-    }
-
-    System.Collections.IEnumerator SnapToAngle(float targetAngle)
-    {
-        Quaternion targetRot = Quaternion.Euler(0f, 0f, targetAngle);
-
-        while (Quaternion.Angle(transform.rotation, targetRot) > 0.5f)
+        if (!collision.collider.CompareTag("Ramp")) return;
+        rampContactCount = Mathf.Max(0, rampContactCount - 1);
+        if (rampContactCount == 0 && isOnRamp)
         {
-            transform.rotation = Quaternion.Lerp(transform.rotation, targetRot, rampSnapSpeed * Time.deltaTime);
-            yield return null;
+            isOnRamp = false;
+            if (isGrounded && !isJumping && !isFloating && !isFalling)
+                StartCoroutine(LerpRotationTo(0f, rampExitSnapSpeed));
         }
-        transform.rotation = targetRot;
     }
 
-    // ── Aterrizaje ─────────────────────────────────────────────
+    #endregion
+
+    #region Brake & Landing
+
+    public void OnBrakeReleased()
+    {
+        horizontalSpeed += brakeReleaseBoost;
+    }
+
     void OnLand()
     {
-        float currentAngle = transform.eulerAngles.z;
-        if (currentAngle > 180f) currentAngle -= 360f;
+        float angle = NormalizeAngle(transform.eulerAngles.z);
 
-        if (currentAngle >= safeLandingAngleMin && currentAngle <= safeLandingAngleMax)
-            StartCoroutine(SnapToZero());
+        if (angle >= safeLandingAngleMin && angle <= safeLandingAngleMax)
+        {
+            if (landingCoroutine != null) StopCoroutine(landingCoroutine);
+            landingCoroutine = StartCoroutine(SnapToZero());
+        }
         else
+        {
             OnBail();
+        }
     }
 
     void OnBail()
@@ -266,49 +418,79 @@ public class PlayerMovement : MonoBehaviour
         Time.timeScale = 0f;
     }
 
-    System.Collections.IEnumerator SnapToZero()
+    IEnumerator SnapToZero()
     {
-        while (isGrounded)
+        while (true)
         {
-            float currentAngle = transform.eulerAngles.z;
-            if (currentAngle > 180f) currentAngle -= 360f;
-            if (Mathf.Abs(currentAngle) < 0.5f) break;
+            float angle = NormalizeAngle(transform.eulerAngles.z);
+            if (Mathf.Abs(angle) < 0.5f) break;
 
-            transform.rotation = Quaternion.Lerp(
-                transform.rotation,
-                Quaternion.identity,
-                landingSnapSpeed * Time.deltaTime
-            );
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.identity,
+                landingSnapSpeed * Time.deltaTime);
             yield return null;
         }
-        if (isGrounded)
-            transform.rotation = Quaternion.identity;
+        transform.rotation = Quaternion.identity;
+        landingCoroutine = null;
     }
 
+    IEnumerator LerpRotationTo(float targetZ, float speed)
+    {
+        Quaternion target = Quaternion.Euler(0f, 0f, targetZ);
+        while (Quaternion.Angle(transform.rotation, target) > 0.5f)
+        {
+            // Ramp re-entry or any state transition that needs rotation control
+            // cancels this smoothing.
+            if (isOnRamp || isJumping || isFloating || isFalling) yield break;
+
+            transform.rotation = Quaternion.Lerp(transform.rotation, target,
+                speed * Time.deltaTime);
+            yield return null;
+        }
+        if (!isOnRamp && !isJumping && !isFloating && !isFalling)
+            transform.rotation = target;
+    }
+
+    #endregion
+
+    #region Helpers
+
+    static float NormalizeAngle(float angle)
+    {
+        if (angle > 180f) angle -= 360f;
+        return angle;
+    }
+
+    #endregion
+
     #region Debug
+
     [Header("Debug")]
     [SerializeField] bool showRaycasts = true;
 
     void OnDrawGizmos()
     {
-        if (!showRaycasts || der == null || down == null) return;
+        if (!showRaycasts) return;
 
-        Gizmos.color = rayDer.collider != null ? Color.green : Color.red;
-        Gizmos.DrawRay(der.transform.position, transform.right * longitudDerecha);
+        if (der != null)
+        {
+            Gizmos.color = Application.isPlaying && rightHit.collider != null ? Color.green : Color.red;
+            Gizmos.DrawRay(der.transform.position, transform.right * longitudDerecha);
+        }
 
-        Vector2 rayOrigin = (Vector2)transform.position + Vector2.down * rayAbajoOffset;
-        Gizmos.color = rayAbajo.collider != null ? Color.green : Color.red;
-        Gizmos.DrawRay(rayOrigin, Vector2.down * longitudAbajo);
+        Vector2 groundOrigin = (Vector2)transform.position + Vector2.down * rayAbajoOffset;
+        Gizmos.color = Application.isPlaying && groundHit.collider != null ? Color.green : Color.red;
+        Gizmos.DrawRay(groundOrigin, Vector2.down * longitudAbajo);
 
         if (cam != null)
         {
-            float frontX = cam.ViewportToWorldPoint(new Vector3(frontLimitPercent, 0, 0)).x;
-            float backX = cam.ViewportToWorldPoint(new Vector3(backLimitPercent, 0, 0)).x;
+            float frontX = cam.ViewportToWorldPoint(new Vector3(frontLimitPercent, 0f, 0f)).x;
+            float backX  = cam.ViewportToWorldPoint(new Vector3(backLimitPercent,  0f, 0f)).x;
             Gizmos.color = Color.cyan;
-            Gizmos.DrawLine(new Vector3(frontX, -10, 0), new Vector3(frontX, 10, 0));
+            Gizmos.DrawLine(new Vector3(frontX, -10f, 0f), new Vector3(frontX, 10f, 0f));
             Gizmos.color = Color.yellow;
-            Gizmos.DrawLine(new Vector3(backX, -10, 0), new Vector3(backX, 10, 0));
+            Gizmos.DrawLine(new Vector3(backX, -10f, 0f), new Vector3(backX, 10f, 0f));
         }
     }
+
     #endregion
 }
