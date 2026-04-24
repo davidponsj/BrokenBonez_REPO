@@ -35,6 +35,15 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField, Range(0f, 1f)] float backLimitPercent = 0.25f;
     [SerializeField] float limitMargin = 0.05f;
 
+    [Header("Speed Wobble")]
+    [SerializeField] float wobbleStartSpeed = 15f;        // velocidad a la que empieza el temblor
+    [SerializeField] float wobbleMaxSpeed = 25f;           // velocidad a la que el temblor es máximo
+    [SerializeField] float wobbleMaxIntensity = 8f;        // grados máximos de oscilación
+    [SerializeField] float wobbleFrequency = 15f;          // frecuencia del temblor
+    [SerializeField] float wobbleWarningTime = 3f;         // segundos antes del aviso
+    [SerializeField] float wobbleWarningDuration = 0.5f;    // duración del wobble intenso
+    [SerializeField] float wobbleWarningMultiplier = 3f;    // multiplicador del temblor en el aviso
+
     [Header("World Scroll")]
     [SerializeField] float minScrollSpeed = 2f;
     [SerializeField] float baseScrollSpeed = 5f;       // velocidad normal del scroll sin input
@@ -73,15 +82,13 @@ public class PlayerMovement : MonoBehaviour
 
     #region Public State (read-only from outside)
 
-    [HideInInspector] public bool isGrounded;
-    [HideInInspector] public bool isJumping;
-    [HideInInspector] public bool isFloating;
-    [HideInInspector] public bool isFalling;
-    [HideInInspector] public bool isOnRamp;
-
-    // Set externally by PlayerInputs so ground movement can differentiate
-    // "brake held" (fast retreat) from "no input" (slow passive retreat).
-    [HideInInspector] public bool isBraking;
+     public bool isGrounded;
+     public bool isJumping;
+     public bool isFloating;
+     public bool isFalling;
+     public bool isOnRamp;
+     public bool isBraking;
+     public bool isCrouching;
 
     #endregion
 
@@ -91,6 +98,10 @@ public class PlayerMovement : MonoBehaviour
 
     float verticalSpeed;
     float floatTimer;
+    float wobbleTimer;
+    float wobbleAccumulator;      // tiempo acumulado en zona de wobble
+    bool wobbleWarningActive;
+    float wobbleWarningTimer;
     float currentFloatDuration;
     bool justJumped;
     int rampContactCount;
@@ -217,6 +228,7 @@ public class PlayerMovement : MonoBehaviour
             ApplyAngleFriction();
 
         UpdateGroundRotation(groundedThisFrame);
+        ApplySpeedWobble();
 
         if (groundedThisFrame && justJumped)
         {
@@ -309,8 +321,52 @@ public class PlayerMovement : MonoBehaviour
         currentFloatDuration = Mathf.Lerp(baseFloatDuration, maxFloatDuration, t);
     }
 
-    // Phase 1: ascending. Vertical speed decays via ascendGravity until it
-    // crosses zero, then we transition to float. Rotation eases back to 0.
+
+    void ApplySpeedWobble()
+    {
+        float wobbleFactor = Mathf.InverseLerp(wobbleStartSpeed, wobbleMaxSpeed, horizontalSpeed);
+
+        // Si no hay wobble o está agachado, resetear acumulador
+        if (wobbleFactor <= 0f || isCrouching)
+        {
+            wobbleAccumulator = 0f;
+            wobbleWarningActive = false;
+            wobbleWarningTimer = 0f;
+            return;
+        }
+
+        // Acumular tiempo en zona de wobble
+        wobbleAccumulator += Time.fixedDeltaTime;
+
+        float intensity = wobbleMaxIntensity * wobbleFactor;
+
+        // Fase 3: si el aviso terminó y sigue en wobble, bail
+        if (wobbleWarningActive)
+        {
+            wobbleWarningTimer += Time.fixedDeltaTime;
+            intensity *= wobbleWarningMultiplier;
+
+            if (wobbleWarningTimer >= wobbleWarningDuration)
+            {
+                OnBail();
+                return;
+            }
+        }
+        // Fase 2: activar aviso
+        else if (wobbleAccumulator >= wobbleWarningTime)
+        {
+            wobbleWarningActive = true;
+            wobbleWarningTimer = 0f;
+        }
+
+        // Aplicar temblor
+        wobbleTimer += Time.fixedDeltaTime * wobbleFrequency;
+        float noise = Mathf.PerlinNoise(wobbleTimer, 0f) * 2f - 1f;
+        float wobbleAngle = noise * intensity;
+
+        transform.Rotate(0f, 0f, wobbleAngle * Time.fixedDeltaTime * wobbleFrequency);
+    }
+
     void TickAscend()
     {
         Vector2 delta = new Vector2(0f, verticalSpeed * Time.fixedDeltaTime);

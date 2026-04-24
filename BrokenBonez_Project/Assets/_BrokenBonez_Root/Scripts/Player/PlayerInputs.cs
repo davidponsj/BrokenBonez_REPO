@@ -67,6 +67,18 @@ public class PlayerInputs : MonoBehaviour
     }
     void Rotate()
     {
+        // Detectar agachado: input de rotar hacia atrás mientras está en suelo
+        if (playerMovement.isGrounded && p2Input < 0)
+        {
+            playerMovement.isCrouching = true;
+            return;
+        }
+        else
+        {
+            playerMovement.isCrouching = false;
+        }
+
+        // No rotar en salto, flotación o suelo
         if (playerMovement.isJumping || playerMovement.isFloating || playerMovement.isGrounded) return;
 
         float currentAngle = transform.eulerAngles.z;
@@ -75,7 +87,6 @@ public class PlayerInputs : MonoBehaviour
         if (currentAngle >= airRotationMax && p2Input > 0) return;
         if (currentAngle <= airRotationMin && p2Input < 0) return;
 
-        // Rotación más lenta cuanto más rápido vas
         float speedFactor = Mathf.InverseLerp(0f, maxSpeedForRotation, playerMovement.horizontalSpeed);
         float currentRotSpeed = Mathf.Lerp(rotationSpeed, rotationSpeedAtMaxVelocity, speedFactor);
 
