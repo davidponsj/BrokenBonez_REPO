@@ -28,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float rampAngle = 40f;
     [SerializeField] float rampSnapSpeed = 40f;
     [SerializeField] float rampExitSnapSpeed = 20f;
+    [SerializeField] float rampMinSpeed = 5f;
 
     [Header("Screen Limits")]
     [SerializeField, Range(0f, 1f)] float frontLimitPercent = 0.55f;
@@ -36,7 +37,10 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("World Scroll")]
     [SerializeField] float minScrollSpeed = 2f;
+    [SerializeField] float baseScrollSpeed = 5f;       // velocidad normal del scroll sin input
     [SerializeField] float scrollMultiplier = 0.5f;
+    [SerializeField] float scrollAccelBoost = 3f;
+    [SerializeField] float scrollBrakeMultiplier = 0.3f;
 
     [Header("Jump - Ascend")]
     [SerializeField] float jumpUpSpeed = 8f;
@@ -148,8 +152,15 @@ public class PlayerMovement : MonoBehaviour
                           && rightHit.collider.CompareTag("Ramp");
             if (rampAhead && !isOnRamp)
             {
-                isOnRamp = true;
-                rampContactCount = 1;
+                if (horizontalSpeed >= rampMinSpeed)
+                {
+                    isOnRamp = true;
+                    rampContactCount = 1;
+                }
+                else
+                {
+                    OnBail();
+                }
             }
         }
     }
@@ -170,7 +181,8 @@ public class PlayerMovement : MonoBehaviour
         {
             float rad = rampAngle * Mathf.Deg2Rad;
             Vector2 rampDir = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
-            delta = rampDir * horizontalVel * Time.fixedDeltaTime;
+            float rampSpeedCompensation = horizontalVel / Mathf.Cos(rad);
+            delta = rampDir * rampSpeedCompensation * Time.fixedDeltaTime;
             rb.MovePosition(rb.position + delta);
 
             // BoxCast hacia abajo para encontrar la superficie real de la rampa
@@ -350,9 +362,11 @@ public class PlayerMovement : MonoBehaviour
             isFalling = false;
             isGrounded = true;
             verticalSpeed = 0f;
-            // Snap al suelo para evitar que se quede flotando
-            rb.position = new Vector2(rb.position.x,
-                fallHit.point.y + rayAbajoOffset);
+            rb.position = new Vector2(rb.position.x, fallHit.point.y + rayAbajoOffset);
+
+            // Reducir velocidad al aterrizar para que no salga disparado
+            horizontalSpeed = Mathf.Min(horizontalSpeed, minScrollSpeed * 3f);
+
             OnLand();
             justJumped = false;
         }
@@ -364,8 +378,15 @@ public class PlayerMovement : MonoBehaviour
 
     void UpdateWorldScroll()
     {
-        float scroll = Mathf.Max(horizontalSpeed * scrollMultiplier, minScrollSpeed);
-        worldScroller.scrollSpeed = scroll;
+        // El scroll parte del base, y sube con la velocidad del player
+        float scroll = baseScrollSpeed + (horizontalSpeed * scrollMultiplier);
+
+        if (playerInputs.isAccelerating)
+            scroll += scrollAccelBoost;
+        else if (isBraking)
+            scroll = baseScrollSpeed * scrollBrakeMultiplier;
+
+        worldScroller.scrollSpeed = Mathf.Max(scroll, minScrollSpeed);
     }
 
     #endregion
@@ -393,6 +414,9 @@ public class PlayerMovement : MonoBehaviour
     public void OnBrakeReleased()
     {
         horizontalSpeed += brakeReleaseBoost;
+
+        // Empujón físico hacia adelante para que se sienta el boost
+        rb.MovePosition(rb.position + Vector2.right * brakeReleaseBoost * 0.05f);
     }
 
     void OnLand()

@@ -8,12 +8,12 @@ public class PlayerInputs : MonoBehaviour
     [SerializeField] float acceleration = 10f;
     [SerializeField] float breakSpeed = 15f;
     [SerializeField] float deceleration = 10f;
-    [SerializeField] float rotationSpeed = 5f;
     [SerializeField] bool canGoBackwards;
 
-    [Header("Rotation Limits")]
-    [SerializeField] float groundRotationMin = -45f;
-    [SerializeField] float groundRotationMax = 45f;
+    [Header("Rotation")]
+    [SerializeField] float rotationSpeed = 250f;
+    [SerializeField] float rotationSpeedAtMaxVelocity = 80f;  // velocidad de rotación cuando vas al máximo
+    [SerializeField] float maxSpeedForRotation = 25f;          // velocidad del player a la que la rotación es mínima
     [SerializeField] float airRotationMin = -80f;
     [SerializeField] float airRotationMax = 80f;
 
@@ -31,57 +31,55 @@ public class PlayerInputs : MonoBehaviour
         Rotate();
     }
 
+    bool wasBraking = false;
+
     void Move()
     {
         if (playerMovement.isJumping || playerMovement.isFloating || playerMovement.isFalling) return;
 
         isAccelerating = p1Input > 0;
+        playerMovement.isBraking = p1Input < 0;
 
         if (p1Input > 0)
         {
+            wasBraking = false;
             playerMovement.horizontalSpeed = Mathf.Clamp(
                 playerMovement.horizontalSpeed + acceleration * Time.deltaTime, 0, maxSpeed);
         }
         else if (p1Input < 0)
         {
-            if (canGoBackwards)
-                playerMovement.horizontalSpeed = Mathf.Clamp(
-                    playerMovement.horizontalSpeed - breakSpeed * Time.deltaTime, -maxSpeed, maxSpeed);
-            else
-                playerMovement.horizontalSpeed = Mathf.Clamp(
-                    playerMovement.horizontalSpeed - breakSpeed * Time.deltaTime, 0, maxSpeed);
+            wasBraking = true;
+            playerMovement.horizontalSpeed = Mathf.Clamp(
+                playerMovement.horizontalSpeed - breakSpeed * Time.deltaTime, 0, maxSpeed);
         }
         else
         {
+            if (wasBraking)
+            {
+                playerMovement.OnBrakeReleased();
+                wasBraking = false;
+            }
+            playerMovement.isBraking = false;
+
             playerMovement.horizontalSpeed = Mathf.Clamp(
                 playerMovement.horizontalSpeed - deceleration * Time.deltaTime, 0, maxSpeed);
         }
     }
-
     void Rotate()
     {
+        if (playerMovement.isJumping || playerMovement.isFloating || playerMovement.isGrounded) return;
+
         float currentAngle = transform.eulerAngles.z;
         if (currentAngle > 180f) currentAngle -= 360f;
 
-        float min, max;
+        if (currentAngle >= airRotationMax && p2Input > 0) return;
+        if (currentAngle <= airRotationMin && p2Input < 0) return;
 
-        if (playerMovement.isGrounded)
-        {
-            min = groundRotationMin;
-            max = groundRotationMax;
-        }
-        else
-        {
-            min = airRotationMin;
-            max = airRotationMax;
-        }
+        // Rotación más lenta cuanto más rápido vas
+        float speedFactor = Mathf.InverseLerp(0f, maxSpeedForRotation, playerMovement.horizontalSpeed);
+        float currentRotSpeed = Mathf.Lerp(rotationSpeed, rotationSpeedAtMaxVelocity, speedFactor);
 
-        Debug.Log($"Rotate - angle: {currentAngle:F1} min: {min} max: {max} input: {p2Input}");
-
-        if (currentAngle >= max && p2Input > 0) return;
-        if (currentAngle <= min && p2Input < 0) return;
-
-        transform.Rotate(0, 0, p2Input * rotationSpeed * Time.deltaTime);
+        transform.Rotate(0, 0, p2Input * currentRotSpeed * Time.deltaTime);
     }
 
     public bool IsRotating()
