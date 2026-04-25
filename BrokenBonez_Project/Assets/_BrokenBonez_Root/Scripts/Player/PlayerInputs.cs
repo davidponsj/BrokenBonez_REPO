@@ -19,6 +19,7 @@ public class PlayerInputs : MonoBehaviour
 
     [Header("References")]
     [SerializeField] PlayerMovement playerMovement;
+    public float maxSpeedRef => maxSpeed;
 
     public bool isAccelerating = false;
 
@@ -61,8 +62,11 @@ public class PlayerInputs : MonoBehaviour
             }
             playerMovement.isBraking = false;
 
+            // Deceleración proporcional: a alta velocidad decelera más rápido
+            float decelFactor = Mathf.Lerp(0.3f, 1f, playerMovement.horizontalSpeed / maxSpeed);
             playerMovement.horizontalSpeed = Mathf.Clamp(
-                playerMovement.horizontalSpeed - deceleration * Time.deltaTime, 0, maxSpeed);
+                playerMovement.horizontalSpeed - deceleration * decelFactor * Time.deltaTime,
+                0, maxSpeed);
         }
     }
     void Rotate()

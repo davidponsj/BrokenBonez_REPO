@@ -29,6 +29,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float rampSnapSpeed = 40f;
     [SerializeField] float rampExitSnapSpeed = 20f;
     [SerializeField] float rampMinSpeed = 5f;
+    [SerializeField] float rampSurfaceOffset = 0.2f;
 
     [Header("Screen Limits")]
     [SerializeField, Range(0f, 1f)] float frontLimitPercent = 0.55f;
@@ -89,6 +90,7 @@ public class PlayerMovement : MonoBehaviour
      public bool isOnRamp;
      public bool isBraking;
      public bool isCrouching;
+     public System.Action onAccelerating;
 
     #endregion
 
@@ -185,6 +187,8 @@ public class PlayerMovement : MonoBehaviour
         bool groundedThisFrame = groundHit.collider != null;
 
         float horizontalVel = ComputeGroundHorizontalVelocity();
+        if (playerInputs.isAccelerating)
+            onAccelerating?.Invoke();
         horizontalVel = ApplyCameraClamp(horizontalVel);
 
         Vector2 delta;
@@ -194,21 +198,26 @@ public class PlayerMovement : MonoBehaviour
             Vector2 rampDir = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
             float rampSpeedCompensation = horizontalVel / Mathf.Cos(rad);
             delta = rampDir * rampSpeedCompensation * Time.fixedDeltaTime;
+
+            // Limitar paso máximo para no traspasar colliders
+            float maxStep = 0.3f;
+            if (delta.magnitude > maxStep)
+                delta = delta.normalized * maxStep;
+
             rb.MovePosition(rb.position + delta);
 
             // BoxCast hacia abajo para encontrar la superficie real de la rampa
-            RaycastHit2D rampSurface = Physics2D.BoxCast(
+            RaycastHit2D rampSurface = Physics2D.Raycast(
                 rb.position,
-                new Vector2(0.3f, 0.1f),
-                0f,
                 Vector2.down,
-                rayAbajoOffset + 1.5f,
+                rayAbajoOffset + 2f,
                 groundLayer);
 
             if (rampSurface.collider != null)
             {
-                float targetY = rampSurface.point.y + rayAbajoOffset;
-                rb.position = new Vector2(rb.position.x, targetY);
+                float targetY = rampSurface.point.y + rayAbajoOffset + rampSurfaceOffset;
+                if (rb.position.y < targetY)
+                    rb.position = new Vector2(rb.position.x, targetY);
             }
             else
             {
@@ -243,7 +252,12 @@ public class PlayerMovement : MonoBehaviour
     {
         if (playerInputs.isAccelerating) return horizontalSpeed;
         if (isBraking) return -brakeRetreatSpeed;
-        return -passiveRetreatSpeed;
+
+        // Sin input: retroceso proporcional a la velocidad actual
+        // A velocidad alta retrocedes más, a velocidad baja casi nada
+        float retreat = Mathf.Lerp(passiveRetreatSpeed * 0.5f, passiveRetreatSpeed,
+            horizontalSpeed / playerInputs.maxSpeedRef);
+        return -retreat;
     }
 
     float ApplyCameraClamp(float horizontalVel)
