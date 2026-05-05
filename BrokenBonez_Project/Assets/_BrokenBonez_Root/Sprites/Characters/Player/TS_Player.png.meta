@@ -1,0 +1,2830 @@
+fileFormatVersion: 2
+guid: 72cd992c2783cca4ead4798f25ab8c3d
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 1190059391827501305
+    second: TILESET_Player_HF_0
+  - first:
+      213: -4274011890149756994
+    second: TILESET_Player_HF_1
+  - first:
+      213: 7570350491392413950
+    second: TILESET_Player_HF_2
+  - first:
+      213: 4385459435693966072
+    second: TILESET_Player_HF_3
+  - first:
+      213: 5624700649148361363
+    second: TILESET_Player_HF_4
+  - first:
+      213: -7347298636755180544
+    second: TILESET_Player_HF_5
+  - first:
+      213: -4564470612121723823
+    second: TILESET_Player_HF_6
+  - first:
+      213: -4857149130247506950
+    second: TILESET_Player_HF_7
+  - first:
+      213: 3652503496327681147
+    second: TILESET_Player_HF_8
+  - first:
+      213: 8639986926506742414
+    second: TILESET_Player_HF_9
+  - first:
+      213: -3650572044067804734
+    second: TILESET_Player_HF_10
+  - first:
+      213: 4984652075847734087
+    second: TILESET_Player_HF_11
+  - first:
+      213: 6211000595713108780
+    second: TILESET_Player_HF_12
+  - first:
+      213: 745481298401027587
+    second: TILESET_Player_HF_13
+  - first:
+      213: 3005337761180239636
+    second: TILESET_Player_HF_14
+  - first:
+      213: 799178859329702156
+    second: TILESET_Player_HF_15
+  - first:
+      213: 8453977293345555441
+    second: TILESET_Player_HF_16
+  - first:
+      213: 7532237869269310039
+    second: TILESET_Player_HF_17
+  - first:
+      213: 3809859047540251953
+    second: TILESET_Player_HF_18
+  - first:
+      213: -2631115171561714041
+    second: TILESET_Player_HF_19
+  - first:
+      213: -2917365409318306240
+    second: TILESET_Player_HF_20
+  - first:
+      213: 3912856551697932702
+    second: TILESET_Player_HF_21
+  - first:
+      213: 1555014366370186306
+    second: TILESET_Player_HF_22
+  - first:
+      213: 3463130199332622763
+    second: TILESET_Player_HF_23
+  - first:
+      213: -1708267273704684488
+    second: TILESET_Player_HF_24
+  - first:
+      213: -1810239657121323774
+    second: TILESET_Player_HF_25
+  - first:
+      213: -1139316457641091800
+    second: TILESET_Player_HF_26
+  - first:
+      213: -3455473570501261976
+    second: TILESET_Player_HF_27
+  - first:
+      213: -7864630038213606259
+    second: TILESET_Player_HF_28
+  - first:
+      213: -8931311426077527780
+    second: TILESET_Player_HF_29
+  - first:
+      213: -7102024443982805470
+    second: TILESET_Player_HF_30
+  - first:
+      213: -1824031451695760467
+    second: TILESET_Player_HF_31
+  - first:
+      213: 4794611144111384093
+    second: TILESET_Player_HF_32
+  - first:
+      213: 519969931342208079
+    second: TILESET_Player_HF_33
+  - first:
+      213: -1198744256037803826
+    second: TILESET_Player_HF_34
+  - first:
+      213: -7453265725098554504
+    second: TILESET_Player_HF_35
+  - first:
+      213: 8214571008238855418
+    second: TILESET_Player_HF_36
+  - first:
+      213: 8705758245869359031
+    second: TILESET_Player_HF_37
+  - first:
+      213: -1775560856719308250
+    second: TILESET_Player_HF_38
+  - first:
+      213: -6575509262917518737
+    second: TILESET_Player_HF_39
+  - first:
+      213: 8998283515062735253
+    second: TILESET_Player_HF_40
+  - first:
+      213: 4192940053211048367
+    second: TILESET_Player_HF_41
+  - first:
+      213: 1810532568186215561
+    second: TILESET_Player_HF_42
+  - first:
+      213: -634304979952517320
+    second: TILESET_Player_HF_43
+  - first:
+      213: 1787138950713022945
+    second: TILESET_Player_HF_44
+  - first:
+      213: -2137393979031915992
+    second: TILESET_Player_HF_45
+  - first:
+      213: -8783496393589669530
+    second: TILESET_Player_HF_46
+  - first:
+      213: 1377262001971317130
+    second: TILESET_Player_HF_47
+  - first:
+      213: 7359868434478005579
+    second: TILESET_Player_HF_48
+  - first:
+      213: 8862001607886979598
+    second: TILESET_Player_HF_49
+  - first:
+      213: 3559384776781780053
+    second: TILESET_Player_HF_50
+  - first:
+      213: -7669963232286518278
+    second: TILESET_Player_HF_51
+  - first:
+      213: -4235307775285972079
+    second: TILESET_Player_HF_52
+  - first:
+      213: 4945723261026147445
+    second: TILESET_Player_HF_53
+  - first:
+      213: -8329286158214238043
+    second: TILESET_Player_HF_54
+  - first:
+      213: -3028404516438123929
+    second: TILESET_Player_HF_55
+  - first:
+      213: 4310407592673796441
+    second: TILESET_Player_HF_56
+  - first:
+      213: 7136323766230233540
+    second: TILESET_Player_HF_57
+  - first:
+      213: 572284081397009028
+    second: TILESET_Player_HF_58
+  - first:
+      213: -1240829666778472581
+    second: TILESET_Player_HF_59
+  - first:
+      213: -39676288922465493
+    second: TILESET_Player_HF_60
+  - first:
+      213: -6308466153551786548
+    second: TILESET_Player_HF_61
+  - first:
+      213: -7989267184795585220
+    second: TILESET_Player_HF_62
+  - first:
+      213: 2159232732546469012
+    second: TILESET_Player_HF_63
+  - first:
+      213: 1398551130164453026
+    second: TILESET_Player_HF_64
+  - first:
+      213: -5712035086467782828
+    second: TILESET_Player_HF_65
+  - first:
+      213: -263377595620041641
+    second: TILESET_Player_HF_66
+  - first:
+      213: -7109814969507745699
+    second: TILESET_Player_HF_67
+  - first:
+      213: -6499985804770588058
+    second: TILESET_Player_HF_68
+  - first:
+      213: 3436839366676427927
+    second: TILESET_Player_HF_69
+  - first:
+      213: 5911737991784405197
+    second: TILESET_Player_HF_70
+  - first:
+      213: 3074806851285237311
+    second: TILESET_Player_HF_71
+  - first:
+      213: 7941435269995759610
+    second: TILESET_Player_HF_72
+  - first:
+      213: -1427526078644254513
+    second: TILESET_Player_HF_73
+  - first:
+      213: -6659572725156732664
+    second: TILESET_Player_HF_74
+  - first:
+      213: 7960610105469402572
+    second: TILESET_Player_HF_75
+  - first:
+      213: -7168839931191159911
+    second: TILESET_Player_HF_76
+  - first:
+      213: -8907806060761982941
+    second: TILESET_Player_HF_77
+  - first:
+      213: 5533861358421356060
+    second: TILESET_Player_HF_78
+  - first:
+      213: 3947837537991575195
+    second: TILESET_Player_HF_79
+  - first:
+      213: 3475630025049005354
+    second: TILESET_Player_HF_80
+  - first:
+      213: -7962677374477622144
+    second: TILESET_Player_HF_81
+  - first:
+      213: 9123893310304585869
+    second: TILESET_Player_HF_82
+  - first:
+      213: 8448130516702091490
+    second: TILESET_Player_HF_83
+  - first:
+      213: 2500824366548435908
+    second: TILESET_Player_HF_84
+  - first:
+      213: 2521451736507936865
+    second: TILESET_Player_HF_85
+  - first:
+      213: 3315309729517024693
+    second: TILESET_Player_HF_86
+  - first:
+      213: 102068137751904549
+    second: TILESET_Player_HF_87
+  - first:
+      213: 6133254808229596400
+    second: TILESET_Player_HF_88
+  - first:
+      213: -7877477055845844265
+    second: TILESET_Player_HF_89
+  - first:
+      213: 5056270128756518723
+    second: TILESET_Player_HF_90
+  - first:
+      213: -4045004413248133648
+    second: TILESET_Player_HF_91
+  - first:
+      213: -5589843847590381862
+    second: TILESET_Player_HF_92
+  - first:
+      213: 3355704457892809433
+    second: TILESET_Player_HF_93
+  - first:
+      213: -1092713151800516982
+    second: TILESET_Player_HF_94
+  - first:
+      213: -853622113104052514
+    second: TILESET_Player_HF_95
+  - first:
+      213: 6420697683827765514
+    second: TILESET_Player_HF_96
+  - first:
+      213: -9058516149302512567
+    second: TILESET_Player_HF_97
+  - first:
+      213: -6606516515114977657
+    second: TILESET_Player_HF_98
+  - first:
+      213: 1767361158642511333
+    second: TILESET_Player_HF_99
+  - first:
+      213: 4478743892453728011
+    second: TILESET_Player_HF_100
+  - first:
+      213: -383851751012259183
+    second: TILESET_Player_HF_101
+  - first:
+      213: -2588876812836829641
+    second: TILESET_Player_HF_102
+  - first:
+      213: 5504115156296879979
+    second: TILESET_Player_HF_103
+  - first:
+      213: 7968941921848678358
+    second: TILESET_Player_HF_104
+  - first:
+      213: 3904296504991724289
+    second: TILESET_Player_HF_105
+  - first:
+      213: -7987099142430800647
+    second: TILESET_Player_HF_106
+  - first:
+      213: -4875493253572623067
+    second: TILESET_Player_HF_107
+  - first:
+      213: 3509268583357729016
+    second: TILESET_Player_HF_108
+  - first:
+      213: 621862494625977239
+    second: TILESET_Player_HF_109
+  - first:
+      213: -6283560762259818341
+    second: TILESET_Player_HF_110
+  - first:
+      213: 6137228696465719239
+    second: TILESET_Player_HF_111
+  - first:
+      213: -6001613970647024611
+    second: TILESET_Player_HF_112
+  - first:
+      213: 3655436507669586802
+    second: TILESET_Player_HF_113
+  - first:
+      213: 2196056323819779746
+    second: TILESET_Player_HF_114
+  - first:
+      213: -4275938191742609276
+    second: TILESET_Player_HF_115
+  - first:
+      213: -1029458160556078079
+    second: TILESET_Player_HF_116
+  - first:
+      213: -5927767387536802290
+    second: TILESET_Player_HF_117
+  - first:
+      213: 8231409044884173718
+    second: TILESET_Player_HF_118
+  - first:
+      213: 6595536040796429486
+    second: TILESET_Player_HF_119
+  - first:
+      213: -4512392999604836178
+    second: TILESET_Player_HF_120
+  - first:
+      213: 8498777617105171845
+    second: TILESET_Player_HF_121
+  - first:
+      213: 7002765398206790171
+    second: TILESET_Player_HF_122
+  - first:
+      213: 4023189146655270346
+    second: TILESET_Player_HF_123
+  - first:
+      213: 7912049976959875365
+    second: TILESET_Player_HF_124
+  - first:
+      213: 5242663238276175106
+    second: TILESET_Player_HF_125
+  - first:
+      213: 3266558677179514888
+    second: TILESET_Player_HF_126
+  - first:
+      213: -1173659319442312673
+    second: TILESET_Player_HF_127
+  - first:
+      213: 1383690531238595275
+    second: TILESET_Player_HF_128
+  - first:
+      213: -8529171923633924934
+    second: TILESET_Player_HF_129
+  - first:
+      213: 4612346246094240011
+    second: TILESET_Player_HF_130
+  - first:
+      213: 3025650363860059750
+    second: TILESET_Player_HF_131
+  - first:
+      213: -5695238189227658676
+    second: TILESET_Player_HF_132
+  - first:
+      213: -820278407116523689
+    second: TILESET_Player_HF_133
+  - first:
+      213: -5156045654739430551
+    second: TILESET_Player_HF_134
+  - first:
+      213: 3107354726706654498
+    second: TILESET_Player_HF_135
+  - first:
+      213: -549850862341090954
+    second: TILESET_Player_HF_136
+  - first:
+      213: -8699524963964143875
+    second: TILESET_Player_HF_137
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 200
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WindowsStoreApps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: TILESET_Player_HF_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 8704
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9f0ee7f26b0f38010800000000000000
+      internalID: 1190059391827501305
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_1
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 8704
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ebfe3d1a4d8afa4c0800000000000000
+      internalID: -4274011890149756994
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_2
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 8704
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef016a899a94f0960800000000000000
+      internalID: 7570350491392413950
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_3
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 8704
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8f28c612f184cdc30800000000000000
+      internalID: 4385459435693966072
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 8192
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 39aa5608073fe0e40800000000000000
+      internalID: 5624700649148361363
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_5
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 8192
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 004ee7941d6290a90800000000000000
+      internalID: -7347298636755180544
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 7680
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b74db7ff39c40b230800000000000000
+      internalID: 3652503496327681147
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_9
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 7680
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e821472455667e770800000000000000
+      internalID: 8639986926506742414
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_10
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 7680
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2c9ed564110965dc0800000000000000
+      internalID: -3650572044067804734
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_11
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 7680
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 74351d537aa0d2540800000000000000
+      internalID: 4984652075847734087
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_12
+      rect:
+        serializedVersion: 2
+        x: 2048
+        y: 7680
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c2b283f6228e13650800000000000000
+      internalID: 6211000595713108780
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_13
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 7168
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 306e3e98a4b785a00800000000000000
+      internalID: 745481298401027587
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_14
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 7168
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 417473555ca15b920800000000000000
+      internalID: 3005337761180239636
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_15
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 7168
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c09495630f0471b00800000000000000
+      internalID: 799178859329702156
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_16
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 7168
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1f38415ae8f825570800000000000000
+      internalID: 8453977293345555441
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_17
+      rect:
+        serializedVersion: 2
+        x: 2048
+        y: 7168
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 75ada814f62e78860800000000000000
+      internalID: 7532237869269310039
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_18
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 6656
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 13dd1f44e965fd430800000000000000
+      internalID: 3809859047540251953
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_19
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 6656
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 78e4ce311b66c7bd0800000000000000
+      internalID: -2631115171561714041
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_23
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 6144
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba1162e51928f0030800000000000000
+      internalID: 3463130199332622763
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_24
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 6144
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 834486127f30b48e0800000000000000
+      internalID: -1708267273704684488
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_25
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 6144
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 20565f67f9cb0e6e0800000000000000
+      internalID: -1810239657121323774
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_26
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 6144
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 82ddb87d7b55030f0800000000000000
+      internalID: -1139316457641091800
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_27
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 5632
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 86585837811bb00d0800000000000000
+      internalID: -3455473570501261976
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_28
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 5632
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d84496a16a83bd290800000000000000
+      internalID: -7864630038213606259
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_29
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 5632
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c11f24ef39b9d0480800000000000000
+      internalID: -8931311426077527780
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_30
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 5632
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2268346756a807d90800000000000000
+      internalID: -7102024443982805470
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_31
+      rect:
+        serializedVersion: 2
+        x: 2048
+        y: 5632
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dabb88e0f0dbfa6e0800000000000000
+      internalID: -1824031451695760467
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_32
+      rect:
+        serializedVersion: 2
+        x: 2560
+        y: 5632
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d1663e0ce61e98240800000000000000
+      internalID: 4794611144111384093
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_33
+      rect:
+        serializedVersion: 2
+        x: 3072
+        y: 5632
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f4c598bc5ed473700800000000000000
+      internalID: 519969931342208079
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_34
+      rect:
+        serializedVersion: 2
+        x: 3584
+        y: 5632
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ec8a35a43743d5fe0800000000000000
+      internalID: -1198744256037803826
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_35
+      rect:
+        serializedVersion: 2
+        x: 4096
+        y: 5632
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 87b08e6ef4ea09890800000000000000
+      internalID: -7453265725098554504
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_36
+      rect:
+        serializedVersion: 2
+        x: 4608
+        y: 5632
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af4ac403fc4000270800000000000000
+      internalID: 8214571008238855418
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_37
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 5120
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7bf8871eff011d870800000000000000
+      internalID: 8705758245869359031
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_38
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 5120
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 62a4822eec0fb57e0800000000000000
+      internalID: -1775560856719308250
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_39
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 5120
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f6ab286f9291fb4a0800000000000000
+      internalID: -6575509262917518737
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_40
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 5120
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 59151979e2350ec70800000000000000
+      internalID: 8998283515062735253
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_41
+      rect:
+        serializedVersion: 2
+        x: 2048
+        y: 5120
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fa9e62463c0503a30800000000000000
+      internalID: 4192940053211048367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_47
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 4608
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a89c4266e740d1310800000000000000
+      internalID: 1377262001971317130
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_48
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 4608
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b4dfbaec851832660800000000000000
+      internalID: 7359868434478005579
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_49
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 4608
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e024b0d62872cfa70800000000000000
+      internalID: 8862001607886979598
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_50
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 4608
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 554d2079899756130800000000000000
+      internalID: 3559384776781780053
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_51
+      rect:
+        serializedVersion: 2
+        x: 2048
+        y: 4608
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af35143d311de8590800000000000000
+      internalID: -7669963232286518278
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_52
+      rect:
+        serializedVersion: 2
+        x: 2560
+        y: 4608
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 19331ab940a2935c0800000000000000
+      internalID: -4235307775285972079
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_53
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 4096
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 57c99d23a1db2a440800000000000000
+      internalID: 4945723261026147445
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_54
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 4096
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5a0ff0b9e5e686c80800000000000000
+      internalID: -8329286158214238043
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_55
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 4096
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 76a54813322f8f5d0800000000000000
+      internalID: -3028404516438123929
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_56
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 4096
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 951e7763ed4a1db30800000000000000
+      internalID: 4310407592673796441
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_57
+      rect:
+        serializedVersion: 2
+        x: 2048
+        y: 4096
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4c1b450d7a0590360800000000000000
+      internalID: 7136323766230233540
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_59
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3584
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b7f17e40effa7cee0800000000000000
+      internalID: -1240829666778472581
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_60
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 3584
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b2b45cc10aa037ff0800000000000000
+      internalID: -39676288922465493
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_61
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 3584
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ccd88fff473d378a0800000000000000
+      internalID: -6308466153551786548
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_62
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 3584
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c35f29a03db602190800000000000000
+      internalID: -7989267184795585220
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_63
+      rect:
+        serializedVersion: 2
+        x: 2048
+        y: 3584
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 49c04daeab227fd10800000000000000
+      internalID: 2159232732546469012
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_64
+      rect:
+        serializedVersion: 2
+        x: 2560
+        y: 3584
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ae5ca1d7d6a86310800000000000000
+      internalID: 1398551130164453026
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_65
+      rect:
+        serializedVersion: 2
+        x: 3072
+        y: 3584
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 457258e3a56cab0b0800000000000000
+      internalID: -5712035086467782828
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_66
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3072
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 75c5543e87b485cf0800000000000000
+      internalID: -263377595620041641
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_67
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 3072
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d507cb364fcd45d90800000000000000
+      internalID: -7109814969507745699
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_68
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 3072
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 66a419559596bc5a0800000000000000
+      internalID: -6499985804770588058
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_69
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 3072
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 794b3d0e13b12bf20800000000000000
+      internalID: 3436839366676427927
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_70
+      rect:
+        serializedVersion: 2
+        x: 2048
+        y: 3072
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dc89d7db166ba0250800000000000000
+      internalID: 5911737991784405197
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_71
+      rect:
+        serializedVersion: 2
+        x: 2560
+        y: 3072
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f3e3bcb4a88ebaa20800000000000000
+      internalID: 3074806851285237311
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_72
+      rect:
+        serializedVersion: 2
+        x: 3072
+        y: 3072
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af70bd27d45a53e60800000000000000
+      internalID: 7941435269995759610
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_73
+      rect:
+        serializedVersion: 2
+        x: 3584
+        y: 3072
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fc88dc64898603ce0800000000000000
+      internalID: -1427526078644254513
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_74
+      rect:
+        serializedVersion: 2
+        x: 4096
+        y: 3072
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8012721f3e17493a0800000000000000
+      internalID: -6659572725156732664
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_75
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2560
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ccd73ebb6b4c97e60800000000000000
+      internalID: 7960610105469402572
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_76
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 2560
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 99317b1901a238c90800000000000000
+      internalID: -7168839931191159911
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_77
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 2560
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 328d534559d116480800000000000000
+      internalID: -8907806060761982941
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_78
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 2560
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c1e27f8f5993ccc40800000000000000
+      internalID: 5533861358421356060
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_79
+      rect:
+        serializedVersion: 2
+        x: 2048
+        y: 2560
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b96c0f2035989c630800000000000000
+      internalID: 3947837537991575195
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_80
+      rect:
+        serializedVersion: 2
+        x: 2560
+        y: 2560
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a2d5ab5d71beb3030800000000000000
+      internalID: 3475630025049005354
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_81
+      rect:
+        serializedVersion: 2
+        x: 3072
+        y: 2560
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 084a831bd13ee7190800000000000000
+      internalID: -7962677374477622144
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_82
+      rect:
+        serializedVersion: 2
+        x: 3584
+        y: 2560
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d88844110a49e9e70800000000000000
+      internalID: 9123893310304585869
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_83
+      rect:
+        serializedVersion: 2
+        x: 4096
+        y: 2560
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2e85a20e1f9cd3570800000000000000
+      internalID: 8448130516702091490
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_84
+      rect:
+        serializedVersion: 2
+        x: 4608
+        y: 2560
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4c3c2cde286b4b220800000000000000
+      internalID: 2500824366548435908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_85
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2048
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 160f8d0cefefdf220800000000000000
+      internalID: 2521451736507936865
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_86
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 2048
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5b5324c32a8520e20800000000000000
+      internalID: 3315309729517024693
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_87
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 2048
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 52186953e6e9a6100800000000000000
+      internalID: 102068137751904549
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_88
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 2048
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0fc4b71b0c2bd1550800000000000000
+      internalID: 6133254808229596400
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_89
+      rect:
+        serializedVersion: 2
+        x: 2048
+        y: 2048
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7dab408ba549da290800000000000000
+      internalID: -7877477055845844265
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_90
+      rect:
+        serializedVersion: 2
+        x: 2560
+        y: 2048
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 34f63f094ea7b2640800000000000000
+      internalID: 5056270128756518723
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_91
+      rect:
+        serializedVersion: 2
+        x: 3072
+        y: 2048
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0f52571eae14dd7c0800000000000000
+      internalID: -4045004413248133648
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_92
+      rect:
+        serializedVersion: 2
+        x: 3584
+        y: 2048
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ad6f87a03a2ec62b0800000000000000
+      internalID: -5589843847590381862
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_93
+      rect:
+        serializedVersion: 2
+        x: 4096
+        y: 2048
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9da45e7dc6bd19e20800000000000000
+      internalID: 3355704457892809433
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_94
+      rect:
+        serializedVersion: 2
+        x: 4608
+        y: 2048
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a8e58898d27e5d0f0800000000000000
+      internalID: -1092713151800516982
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_95
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1536
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: edeb308f5335724f0800000000000000
+      internalID: -853622113104052514
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_96
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 1536
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a013abe6686ea1950800000000000000
+      internalID: 6420697683827765514
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_97
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 1536
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9443fa86e8fa94280800000000000000
+      internalID: -9058516149302512567
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_98
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 1536
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 786f1d97b30f054a0800000000000000
+      internalID: -6606516515114977657
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_99
+      rect:
+        serializedVersion: 2
+        x: 2048
+        y: 1536
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5eda5b22c9de68810800000000000000
+      internalID: 1767361158642511333
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_100
+      rect:
+        serializedVersion: 2
+        x: 2560
+        y: 1536
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b0f97ad37d1b72e30800000000000000
+      internalID: 4478743892453728011
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_101
+      rect:
+        serializedVersion: 2
+        x: 3072
+        y: 1536
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 19aa08ebdd84caaf0800000000000000
+      internalID: -383851751012259183
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_102
+      rect:
+        serializedVersion: 2
+        x: 3584
+        y: 1536
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7368d935146721cd0800000000000000
+      internalID: -2588876812836829641
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_105
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1024
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 103b4d54cf8de2630800000000000000
+      internalID: 3904296504991724289
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_106
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 1024
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9f4c59db5af182190800000000000000
+      internalID: -7987099142430800647
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_111
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 512
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7cf3c26abf0db2550800000000000000
+      internalID: 6137228696465719239
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_112
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 512
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d1cff8044ebf5bca0800000000000000
+      internalID: -6001613970647024611
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_113
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 273e3aae228bab230800000000000000
+      internalID: 3655436507669586802
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TILESET_Player_HF_114
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 0
+        width: 512
+        height: 512
+      alignment: 9
+      pivot: {x: 0.476, y: 0.325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a637006795f97e10800000000000000
+      internalID: 2196056323819779746
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 98edad88694464740b4b9ecc18abe919
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":512.0,"y":512.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.47600001096725466,"y":0.32499998807907107},"autoSlicingMethod":0,"spriteAlignment":9,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      TILESET_Player_HF_0: 1190059391827501305
+      TILESET_Player_HF_1: -4274011890149756994
+      TILESET_Player_HF_10: -3650572044067804734
+      TILESET_Player_HF_100: 4478743892453728011
+      TILESET_Player_HF_101: -383851751012259183
+      TILESET_Player_HF_102: -2588876812836829641
+      TILESET_Player_HF_103: 5504115156296879979
+      TILESET_Player_HF_104: 7968941921848678358
+      TILESET_Player_HF_105: 3904296504991724289
+      TILESET_Player_HF_106: -7987099142430800647
+      TILESET_Player_HF_107: -4875493253572623067
+      TILESET_Player_HF_108: 3509268583357729016
+      TILESET_Player_HF_109: 621862494625977239
+      TILESET_Player_HF_11: 4984652075847734087
+      TILESET_Player_HF_110: -6283560762259818341
+      TILESET_Player_HF_111: 6137228696465719239
+      TILESET_Player_HF_112: -6001613970647024611
+      TILESET_Player_HF_113: 3655436507669586802
+      TILESET_Player_HF_114: 2196056323819779746
+      TILESET_Player_HF_12: 6211000595713108780
+      TILESET_Player_HF_13: 745481298401027587
+      TILESET_Player_HF_14: 3005337761180239636
+      TILESET_Player_HF_15: 799178859329702156
+      TILESET_Player_HF_16: 8453977293345555441
+      TILESET_Player_HF_17: 7532237869269310039
+      TILESET_Player_HF_18: 3809859047540251953
+      TILESET_Player_HF_19: -2631115171561714041
+      TILESET_Player_HF_2: 7570350491392413950
+      TILESET_Player_HF_20: -2917365409318306240
+      TILESET_Player_HF_21: 3912856551697932702
+      TILESET_Player_HF_22: 1555014366370186306
+      TILESET_Player_HF_23: 3463130199332622763
+      TILESET_Player_HF_24: -1708267273704684488
+      TILESET_Player_HF_25: -1810239657121323774
+      TILESET_Player_HF_26: -1139316457641091800
+      TILESET_Player_HF_27: -3455473570501261976
+      TILESET_Player_HF_28: -7864630038213606259
+      TILESET_Player_HF_29: -8931311426077527780
+      TILESET_Player_HF_3: 4385459435693966072
+      TILESET_Player_HF_30: -7102024443982805470
+      TILESET_Player_HF_31: -1824031451695760467
+      TILESET_Player_HF_32: 4794611144111384093
+      TILESET_Player_HF_33: 519969931342208079
+      TILESET_Player_HF_34: -1198744256037803826
+      TILESET_Player_HF_35: -7453265725098554504
+      TILESET_Player_HF_36: 8214571008238855418
+      TILESET_Player_HF_37: 8705758245869359031
+      TILESET_Player_HF_38: -1775560856719308250
+      TILESET_Player_HF_39: -6575509262917518737
+      TILESET_Player_HF_4: 5624700649148361363
+      TILESET_Player_HF_40: 8998283515062735253
+      TILESET_Player_HF_41: 4192940053211048367
+      TILESET_Player_HF_42: 1810532568186215561
+      TILESET_Player_HF_43: -634304979952517320
+      TILESET_Player_HF_44: 1787138950713022945
+      TILESET_Player_HF_45: -2137393979031915992
+      TILESET_Player_HF_46: -8783496393589669530
+      TILESET_Player_HF_47: 1377262001971317130
+      TILESET_Player_HF_48: 7359868434478005579
+      TILESET_Player_HF_49: 8862001607886979598
+      TILESET_Player_HF_5: -7347298636755180544
+      TILESET_Player_HF_50: 3559384776781780053
+      TILESET_Player_HF_51: -7669963232286518278
+      TILESET_Player_HF_52: -4235307775285972079
+      TILESET_Player_HF_53: 4945723261026147445
+      TILESET_Player_HF_54: -8329286158214238043
+      TILESET_Player_HF_55: -3028404516438123929
+      TILESET_Player_HF_56: 4310407592673796441
+      TILESET_Player_HF_57: 7136323766230233540
+      TILESET_Player_HF_58: 572284081397009028
+      TILESET_Player_HF_59: -1240829666778472581
+      TILESET_Player_HF_6: -4564470612121723823
+      TILESET_Player_HF_60: -39676288922465493
+      TILESET_Player_HF_61: -6308466153551786548
+      TILESET_Player_HF_62: -7989267184795585220
+      TILESET_Player_HF_63: 2159232732546469012
+      TILESET_Player_HF_64: 1398551130164453026
+      TILESET_Player_HF_65: -5712035086467782828
+      TILESET_Player_HF_66: -263377595620041641
+      TILESET_Player_HF_67: -7109814969507745699
+      TILESET_Player_HF_68: -6499985804770588058
+      TILESET_Player_HF_69: 3436839366676427927
+      TILESET_Player_HF_7: -4857149130247506950
+      TILESET_Player_HF_70: 5911737991784405197
+      TILESET_Player_HF_71: 3074806851285237311
+      TILESET_Player_HF_72: 7941435269995759610
+      TILESET_Player_HF_73: -1427526078644254513
+      TILESET_Player_HF_74: -6659572725156732664
+      TILESET_Player_HF_75: 7960610105469402572
+      TILESET_Player_HF_76: -7168839931191159911
+      TILESET_Player_HF_77: -8907806060761982941
+      TILESET_Player_HF_78: 5533861358421356060
+      TILESET_Player_HF_79: 3947837537991575195
+      TILESET_Player_HF_8: 3652503496327681147
+      TILESET_Player_HF_80: 3475630025049005354
+      TILESET_Player_HF_81: -7962677374477622144
+      TILESET_Player_HF_82: 9123893310304585869
+      TILESET_Player_HF_83: 8448130516702091490
+      TILESET_Player_HF_84: 2500824366548435908
+      TILESET_Player_HF_85: 2521451736507936865
+      TILESET_Player_HF_86: 3315309729517024693
+      TILESET_Player_HF_87: 102068137751904549
+      TILESET_Player_HF_88: 6133254808229596400
+      TILESET_Player_HF_89: -7877477055845844265
+      TILESET_Player_HF_9: 8639986926506742414
+      TILESET_Player_HF_90: 5056270128756518723
+      TILESET_Player_HF_91: -4045004413248133648
+      TILESET_Player_HF_92: -5589843847590381862
+      TILESET_Player_HF_93: 3355704457892809433
+      TILESET_Player_HF_94: -1092713151800516982
+      TILESET_Player_HF_95: -853622113104052514
+      TILESET_Player_HF_96: 6420697683827765514
+      TILESET_Player_HF_97: -9058516149302512567
+      TILESET_Player_HF_98: -6606516515114977657
+      TILESET_Player_HF_99: 1767361158642511333
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

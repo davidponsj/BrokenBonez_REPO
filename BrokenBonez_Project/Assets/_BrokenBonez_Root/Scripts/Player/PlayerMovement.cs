@@ -81,7 +81,7 @@ public class PlayerMovement : MonoBehaviour
 
     #endregion
 
-    #region Public State (read-only from outside)
+    #region Public State
 
      public bool isGrounded;
      public bool isJumping;

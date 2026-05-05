@@ -7,7 +7,7 @@ public class WorldScroller : MonoBehaviour
 
     [Header("References")]
     [SerializeField] ParallaxManager parallaxManager;
-    [SerializeField] Rigidbody2D[] groundObjects;
+    public Rigidbody2D[] groundObjects;
 
     void FixedUpdate()
     {
