@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float brakeReleaseBoost = 3f;
 
     [Header("Raycasts")]
-    [SerializeField] float longitudDerecha = 0.5f;
+    [SerializeField] float longitudDerecha = 1.5f;
     [SerializeField] float longitudAbajo = 0.5f;
     [SerializeField] float rayAbajoOffset = 0.95f;
 
@@ -30,6 +30,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float rampExitSnapSpeed = 20f;
     [SerializeField] float rampMinSpeed = 5f;
     [SerializeField] float rampSurfaceOffset = 0.2f;
+    [SerializeField] float rampMaxStep = 0.3f;
 
     [Header("Screen Limits")]
     [SerializeField, Range(0f, 1f)] float frontLimitPercent = 0.55f;
@@ -37,17 +38,18 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float limitMargin = 0.05f;
 
     [Header("Speed Wobble")]
-    [SerializeField] float wobbleStartSpeed = 15f;        // velocidad a la que empieza el temblor
-    [SerializeField] float wobbleMaxSpeed = 25f;           // velocidad a la que el temblor es máximo
-    [SerializeField] float wobbleMaxIntensity = 8f;        // grados máximos de oscilación
-    [SerializeField] float wobbleFrequency = 15f;          // frecuencia del temblor
-    [SerializeField] float wobbleWarningTime = 3f;         // segundos antes del aviso
-    [SerializeField] float wobbleWarningDuration = 0.5f;    // duración del wobble intenso
-    [SerializeField] float wobbleWarningMultiplier = 3f;    // multiplicador del temblor en el aviso
+    [SerializeField] float wobbleStartSpeed = 15f;
+    [SerializeField] float wobbleTimeToStart = 2f;
+    [SerializeField] float wobbleRampUpTime = 1.5f;
+    [SerializeField] float wobbleMaxIntensity = 8f;
+    [SerializeField] float wobbleFrequency = 15f;
+    [SerializeField] float wobbleWarningTime = 3f;
+    [SerializeField] float wobbleWarningDuration = 0.5f;
+    [SerializeField] float wobbleWarningMultiplier = 3f;
 
     [Header("World Scroll")]
     [SerializeField] float minScrollSpeed = 2f;
-    [SerializeField] float baseScrollSpeed = 5f;       // velocidad normal del scroll sin input
+    [SerializeField] float baseScrollSpeed = 5f;
     [SerializeField] float scrollMultiplier = 0.5f;
     [SerializeField] float scrollAccelBoost = 3f;
     [SerializeField] float scrollBrakeMultiplier = 0.3f;
@@ -69,47 +71,47 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float safeLandingAngleMin = -45f;
     [SerializeField] float safeLandingAngleMax = 45f;
     [SerializeField] float landingSnapSpeed = 10f;
+    [SerializeField] float landingSpeedMultiplier = 6f;
 
     [Header("References")]
     [SerializeField] Camera cam;
     [SerializeField] GameObject der;
-    [SerializeField] GameObject down;
     [SerializeField] WorldScroller worldScroller;
     [SerializeField] LayerMask groundLayer;
     [SerializeField] PlayerInputs playerInputs;
     [SerializeField] BoxCollider2D playerCollider;
+    [SerializeField] PlayerAnimator playerAnimator;
 
     #endregion
 
     #region Public State
 
-     public bool isGrounded;
-     public bool isJumping;
-     public bool isFloating;
-     public bool isFalling;
-     public bool isOnRamp;
-     public bool isBraking;
-     public bool isCrouching;
-     public System.Action onAccelerating;
+    public float GetVerticalSpeed() => verticalSpeed;
+    public bool isGrounded;
+    public bool isJumping;
+    public bool isFloating;
+    public bool isFalling;
+    public bool isOnRamp;
+    public bool isBraking;
+    public bool isCrouching;
+    public System.Action onAccelerating;
+    public System.Action OnStartFalling;
+    public System.Action<bool> OnLanded;
 
     #endregion
 
     #region Private State
 
     Rigidbody2D rb;
-
     float verticalSpeed;
     float floatTimer;
     float wobbleTimer;
-    float wobbleAccumulator;      // tiempo acumulado en zona de wobble
+    float wobbleAccumulator;
     bool wobbleWarningActive;
     float wobbleWarningTimer;
     float currentFloatDuration;
     bool justJumped;
-    int rampContactCount;
-
     Coroutine landingCoroutine;
-
     RaycastHit2D rightHit;
     RaycastHit2D groundHit;
 
@@ -126,10 +128,10 @@ public class PlayerMovement : MonoBehaviour
     {
         UpdateRaycasts();
 
-        if (isJumping)       TickAscend();
+        if (isJumping) TickAscend();
         else if (isFloating) TickFloat();
-        else if (isFalling)  TickFall();
-        else                 TickGround();
+        else if (isFalling) TickFall();
+        else TickGround();
 
         UpdateWorldScroll();
     }
@@ -140,39 +142,43 @@ public class PlayerMovement : MonoBehaviour
 
     void UpdateRaycasts()
     {
-        // Raycast suelo — sin cambios
         Vector2 groundOrigin = rb.position + Vector2.down * rayAbajoOffset;
         groundHit = Physics2D.Raycast(groundOrigin, Vector2.down, longitudAbajo, groundLayer);
 
-        // Reemplaza el rightHit simple por un BoxCast frontal
-        if (playerCollider != null)
-        {
-            Vector2 boxCenter = rb.position;
-            Vector2 boxSize = playerCollider.size * 0.9f; // ligeramente menor para evitar falsos positivos
-            rightHit = Physics2D.BoxCast(boxCenter, boxSize, 0f,
-                                         Vector2.right, longitudDerecha, groundLayer);
-        }
-        else if (der != null)
-        {
-            rightHit = Physics2D.Raycast(der.transform.position,
-                                         transform.right, longitudDerecha, groundLayer);
-        }
+        // Raycast simple horizontal, más predecible que BoxCast
+        rightHit = Physics2D.Raycast(rb.position, Vector2.right, longitudDerecha, groundLayer);
 
-        // Activar isOnRamp si el BoxCast toca algo con tag Ramp
         if (!isJumping && !isFloating && !isFalling)
         {
             bool rampAhead = rightHit.collider != null
                           && rightHit.collider.CompareTag("Ramp");
+
             if (rampAhead && !isOnRamp)
             {
                 if (horizontalSpeed >= rampMinSpeed)
                 {
                     isOnRamp = true;
-                    rampContactCount = 1;
                 }
                 else
                 {
                     OnBail();
+                }
+            }
+
+            // Salir de rampa si ya no hay rampa ni delante ni debajo
+            if (isOnRamp && !rampAhead)
+            {
+                RaycastHit2D rampBelow = Physics2D.Raycast(
+                    rb.position, Vector2.down, rayAbajoOffset + 1f, groundLayer);
+
+                bool rampStillBelow = rampBelow.collider != null
+                                   && rampBelow.collider.CompareTag("Ramp");
+
+                if (!rampStillBelow)
+                {
+                    isOnRamp = false;
+                    if (isGrounded && !isJumping && !isFloating && !isFalling)
+                        StartCoroutine(LerpRotationTo(0f, rampExitSnapSpeed));
                 }
             }
         }
@@ -191,47 +197,10 @@ public class PlayerMovement : MonoBehaviour
             onAccelerating?.Invoke();
         horizontalVel = ApplyCameraClamp(horizontalVel);
 
-        Vector2 delta;
         if (isOnRamp)
-        {
-            float rad = rampAngle * Mathf.Deg2Rad;
-            Vector2 rampDir = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
-            float rampSpeedCompensation = horizontalVel / Mathf.Cos(rad);
-            delta = rampDir * rampSpeedCompensation * Time.fixedDeltaTime;
-
-            // Limitar paso máximo para no traspasar colliders
-            float maxStep = 0.3f;
-            if (delta.magnitude > maxStep)
-                delta = delta.normalized * maxStep;
-
-            rb.MovePosition(rb.position + delta);
-
-            // BoxCast hacia abajo para encontrar la superficie real de la rampa
-            RaycastHit2D rampSurface = Physics2D.Raycast(
-                rb.position,
-                Vector2.down,
-                rayAbajoOffset + 2f,
-                groundLayer);
-
-            if (rampSurface.collider != null)
-            {
-                float targetY = rampSurface.point.y + rayAbajoOffset + rampSurfaceOffset;
-                if (rb.position.y < targetY)
-                    rb.position = new Vector2(rb.position.x, targetY);
-            }
-            else
-            {
-                // No hay suelo bajo nosotros: fin de la rampa
-                isOnRamp = false;
-                rampContactCount = 0;
-            }
-        }
+            MoveOnRamp(horizontalVel);
         else
-        {
-            float verticalVel = groundedThisFrame ? 0f : -gravity;
-            delta = new Vector2(horizontalVel, verticalVel) * Time.fixedDeltaTime;
-            rb.MovePosition(rb.position + delta);
-        }
+            MoveOnFlat(horizontalVel, groundedThisFrame);
 
         if (!isOnRamp && groundedThisFrame)
             ApplyAngleFriction();
@@ -248,13 +217,45 @@ public class PlayerMovement : MonoBehaviour
         isGrounded = groundedThisFrame;
     }
 
+    void MoveOnRamp(float horizontalVel)
+    {
+        float rad = rampAngle * Mathf.Deg2Rad;
+        Vector2 rampDir = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
+        float rampSpeedCompensation = horizontalVel / Mathf.Cos(rad);
+        Vector2 delta = rampDir * rampSpeedCompensation * Time.fixedDeltaTime;
+
+        if (delta.magnitude > rampMaxStep)
+            delta = delta.normalized * rampMaxStep;
+
+        rb.MovePosition(rb.position + delta);
+
+        RaycastHit2D rampSurface = Physics2D.Raycast(
+            rb.position, Vector2.down, rayAbajoOffset + 2f, groundLayer);
+
+        if (rampSurface.collider != null)
+        {
+            float targetY = rampSurface.point.y + rayAbajoOffset + rampSurfaceOffset;
+            if (rb.position.y < targetY)
+                rb.position = new Vector2(rb.position.x, targetY);
+        }
+        else
+        {
+            isOnRamp = false;
+        }
+    }
+
+    void MoveOnFlat(float horizontalVel, bool grounded)
+    {
+        float verticalVel = grounded ? 0f : -gravity;
+        Vector2 delta = new Vector2(horizontalVel, verticalVel) * Time.fixedDeltaTime;
+        rb.MovePosition(rb.position + delta);
+    }
+
     float ComputeGroundHorizontalVelocity()
     {
         if (playerInputs.isAccelerating) return horizontalSpeed;
         if (isBraking) return -brakeRetreatSpeed;
 
-        // Sin input: retroceso proporcional a la velocidad actual
-        // A velocidad alta retrocedes más, a velocidad baja casi nada
         float retreat = Mathf.Lerp(passiveRetreatSpeed * 0.5f, passiveRetreatSpeed,
             horizontalSpeed / playerInputs.maxSpeedRef);
         return -retreat;
@@ -263,10 +264,10 @@ public class PlayerMovement : MonoBehaviour
     float ApplyCameraClamp(float horizontalVel)
     {
         float frontX = cam.ViewportToWorldPoint(new Vector3(frontLimitPercent, 0f, 0f)).x;
-        float backX  = cam.ViewportToWorldPoint(new Vector3(backLimitPercent,  0f, 0f)).x;
+        float backX = cam.ViewportToWorldPoint(new Vector3(backLimitPercent, 0f, 0f)).x;
 
         if (rb.position.x >= frontX && horizontalVel > 0f) horizontalVel = 0f;
-        if (rb.position.x <= backX  && horizontalVel < 0f) horizontalVel = 0f;
+        if (rb.position.x <= backX && horizontalVel < 0f) horizontalVel = 0f;
 
         if (rb.position.x < backX - limitMargin)
             rb.position = new Vector2(backX, rb.position.y);
@@ -292,7 +293,6 @@ public class PlayerMovement : MonoBehaviour
 
     void UpdateGroundRotation(bool groundedThisFrame)
     {
-        // Ramps: force the canonical 40° orientation via a fast Lerp.
         if (isOnRamp)
         {
             Quaternion target = Quaternion.Euler(0f, 0f, rampAngle);
@@ -301,10 +301,7 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        // Player is manually rotating: let PlayerInputs own the rotation this frame.
         if (playerInputs.IsRotating()) return;
-
-        // Otherwise, align to the ground normal (smoothly).
         if (!groundedThisFrame) return;
 
         Vector2 normal = groundHit.normal;
@@ -316,45 +313,32 @@ public class PlayerMovement : MonoBehaviour
 
     #endregion
 
-    #region Jump Phases
-
-    public void ActivateJump()
-    {
-        isGrounded  = false;
-        isJumping   = true;
-        isFloating  = false;
-        isFalling   = false;
-        isOnRamp    = false;
-        justJumped  = true;
-        floatTimer  = 0f;
-        verticalSpeed = jumpUpSpeed;
-        rampContactCount = 0;
-
-        // Air time scales with how fast we were going when we took off.
-        float t = Mathf.Clamp01(horizontalSpeed / speedForMaxFloat);
-        currentFloatDuration = Mathf.Lerp(baseFloatDuration, maxFloatDuration, t);
-    }
-
+    #region Speed Wobble
 
     void ApplySpeedWobble()
     {
-        float wobbleFactor = Mathf.InverseLerp(wobbleStartSpeed, wobbleMaxSpeed, horizontalSpeed);
-
-        // Si no hay wobble o está agachado, resetear acumulador
-        if (wobbleFactor <= 0f || isCrouching)
+        if (isOnRamp || isCrouching)
         {
-            wobbleAccumulator = 0f;
-            wobbleWarningActive = false;
-            wobbleWarningTimer = 0f;
+            ResetWobble();
             return;
         }
 
-        // Acumular tiempo en zona de wobble
-        wobbleAccumulator += Time.fixedDeltaTime;
+        if (horizontalSpeed >= wobbleStartSpeed)
+        {
+            wobbleAccumulator += Time.fixedDeltaTime;
+        }
+        else
+        {
+            ResetWobble();
+            return;
+        }
 
+        if (wobbleAccumulator < wobbleTimeToStart) return;
+
+        float timeInWobble = wobbleAccumulator - wobbleTimeToStart;
+        float wobbleFactor = Mathf.Clamp01(timeInWobble / wobbleRampUpTime);
         float intensity = wobbleMaxIntensity * wobbleFactor;
 
-        // Fase 3: si el aviso terminó y sigue en wobble, bail
         if (wobbleWarningActive)
         {
             wobbleWarningTimer += Time.fixedDeltaTime;
@@ -366,26 +350,48 @@ public class PlayerMovement : MonoBehaviour
                 return;
             }
         }
-        // Fase 2: activar aviso
-        else if (wobbleAccumulator >= wobbleWarningTime)
+        else if (wobbleAccumulator >= wobbleTimeToStart + wobbleWarningTime)
         {
             wobbleWarningActive = true;
             wobbleWarningTimer = 0f;
         }
 
-        // Aplicar temblor
         wobbleTimer += Time.fixedDeltaTime * wobbleFrequency;
         float noise = Mathf.PerlinNoise(wobbleTimer, 0f) * 2f - 1f;
-        float wobbleAngle = noise * intensity;
+        transform.Rotate(0f, 0f, noise * intensity * Time.fixedDeltaTime * wobbleFrequency);
+    }
 
-        transform.Rotate(0f, 0f, wobbleAngle * Time.fixedDeltaTime * wobbleFrequency);
+    void ResetWobble()
+    {
+        wobbleAccumulator = 0f;
+        wobbleWarningActive = false;
+        wobbleWarningTimer = 0f;
+    }
+
+    #endregion
+
+    #region Jump Phases
+
+    public void ActivateJump()
+    {
+        isGrounded = false;
+        isJumping = true;
+        isFloating = false;
+        isFalling = false;
+        isOnRamp = false;
+        justJumped = true;
+        floatTimer = 0f;
+        verticalSpeed = jumpUpSpeed;
+
+        CancelLandingCoroutine();
+
+        float t = Mathf.Clamp01(horizontalSpeed / speedForMaxFloat);
+        currentFloatDuration = Mathf.Lerp(baseFloatDuration, maxFloatDuration, t);
     }
 
     void TickAscend()
     {
-        Vector2 delta = new Vector2(0f, verticalSpeed * Time.fixedDeltaTime);
-        rb.MovePosition(rb.position + delta);
-
+        rb.MovePosition(rb.position + Vector2.up * verticalSpeed * Time.fixedDeltaTime);
         verticalSpeed -= ascendGravity * Time.fixedDeltaTime;
 
         transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.identity,
@@ -395,14 +401,13 @@ public class PlayerMovement : MonoBehaviour
         {
             isJumping = false;
             isFloating = true;
+            isFalling = false;
             floatTimer = 0f;
             verticalSpeed = 0f;
             transform.rotation = Quaternion.identity;
         }
     }
 
-    // Phase 2: suspended in the air while the trick window is open.
-    // Future trick combos will be read during this state; rotation is locked here.
     void TickFloat()
     {
         floatTimer += Time.fixedDeltaTime;
@@ -412,17 +417,15 @@ public class PlayerMovement : MonoBehaviour
             isFloating = false;
             isFalling = true;
             verticalSpeed = 0f;
+            OnStartFalling?.Invoke();
         }
     }
 
-    // Phase 3: falling. Gravity accumulates and the ground raycast triggers landing.
     void TickFall()
     {
         verticalSpeed += landingGravity * Time.fixedDeltaTime;
-        Vector2 delta = new Vector2(0f, -verticalSpeed * Time.fixedDeltaTime);
-        rb.MovePosition(rb.position + delta);
+        rb.MovePosition(rb.position + Vector2.down * verticalSpeed * Time.fixedDeltaTime);
 
-        // Usar CircleCast con radio pequeño para no perderse el suelo
         Vector2 groundOrigin = rb.position + Vector2.down * rayAbajoOffset;
         RaycastHit2D fallHit = Physics2D.CircleCast(
             groundOrigin, 0.15f, Vector2.down, longitudAbajo + 0.5f, groundLayer);
@@ -433,10 +436,11 @@ public class PlayerMovement : MonoBehaviour
             isGrounded = true;
             verticalSpeed = 0f;
             rb.position = new Vector2(rb.position.x, fallHit.point.y + rayAbajoOffset);
+            horizontalSpeed = Mathf.Min(horizontalSpeed, minScrollSpeed * landingSpeedMultiplier);
 
-            // Reducir velocidad al aterrizar para que no salga disparado
-            horizontalSpeed = Mathf.Min(horizontalSpeed, minScrollSpeed * 3f);
-
+            float angle = NormalizeAngle(transform.eulerAngles.z);
+            bool safe = angle >= safeLandingAngleMin && angle <= safeLandingAngleMax;
+            OnLanded?.Invoke(safe);
             OnLand();
             justJumped = false;
         }
@@ -448,8 +452,7 @@ public class PlayerMovement : MonoBehaviour
 
     void UpdateWorldScroll()
     {
-        // El scroll parte del base, y sube con la velocidad del player
-        float scroll = baseScrollSpeed + (horizontalSpeed * scrollMultiplier);
+        float scroll = baseScrollSpeed + horizontalSpeed * scrollMultiplier;
 
         if (playerInputs.isAccelerating)
             scroll += scrollAccelBoost;
@@ -463,29 +466,22 @@ public class PlayerMovement : MonoBehaviour
 
     #region Ramp Collision
 
-    void OnCollisionEnter2D(Collision2D collision) { }
-
     void OnCollisionExit2D(Collision2D collision)
     {
         if (!collision.collider.CompareTag("Ramp")) return;
-        rampContactCount = Mathf.Max(0, rampContactCount - 1);
-        if (rampContactCount == 0 && isOnRamp)
-        {
-            isOnRamp = false;
-            if (isGrounded && !isJumping && !isFloating && !isFalling)
-                StartCoroutine(LerpRotationTo(0f, rampExitSnapSpeed));
-        }
+
+        isOnRamp = false;
+        if (isGrounded && !isJumping && !isFloating && !isFalling)
+            StartCoroutine(LerpRotationTo(0f, rampExitSnapSpeed));
     }
 
     #endregion
 
-    #region Brake & Landing
+    #region Landing & Bail
 
     public void OnBrakeReleased()
     {
         horizontalSpeed += brakeReleaseBoost;
-
-        // Empujón físico hacia adelante para que se sienta el boost
         rb.MovePosition(rb.position + Vector2.right * brakeReleaseBoost * 0.05f);
     }
 
@@ -495,7 +491,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (angle >= safeLandingAngleMin && angle <= safeLandingAngleMax)
         {
-            if (landingCoroutine != null) StopCoroutine(landingCoroutine);
+            CancelLandingCoroutine();
             landingCoroutine = StartCoroutine(SnapToZero());
         }
         else
@@ -506,8 +502,34 @@ public class PlayerMovement : MonoBehaviour
 
     void OnBail()
     {
-        Debug.Log("HAS PERDIDO");
+        if (playerAnimator != null)
+            StartCoroutine(DefeatSequence());
+        else
+            Time.timeScale = 0f;
+    }
+
+    void CancelLandingCoroutine()
+    {
+        if (landingCoroutine != null)
+        {
+            StopCoroutine(landingCoroutine);
+            landingCoroutine = null;
+        }
+    }
+
+    IEnumerator DefeatSequence()
+    {
         Time.timeScale = 0f;
+        if (worldScroller != null) worldScroller.enabled = false;
+        rb.linearVelocity = Vector2.zero;
+        transform.rotation = Quaternion.identity;
+
+        playerAnimator.SetAnimatorUnscaled(true);
+        playerAnimator.TriggerDefeat();
+
+        yield return new WaitForSecondsRealtime(1f);
+
+        playerAnimator.FreezeAnimator();
     }
 
     IEnumerator SnapToZero()
@@ -530,8 +552,6 @@ public class PlayerMovement : MonoBehaviour
         Quaternion target = Quaternion.Euler(0f, 0f, targetZ);
         while (Quaternion.Angle(transform.rotation, target) > 0.5f)
         {
-            // Ramp re-entry or any state transition that needs rotation control
-            // cancels this smoothing.
             if (isOnRamp || isJumping || isFloating || isFalling) yield break;
 
             transform.rotation = Quaternion.Lerp(transform.rotation, target,
@@ -563,11 +583,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!showRaycasts) return;
 
-        if (der != null)
-        {
-            Gizmos.color = Application.isPlaying && rightHit.collider != null ? Color.green : Color.red;
-            Gizmos.DrawRay(der.transform.position, transform.right * longitudDerecha);
-        }
+        Gizmos.color = Application.isPlaying && rightHit.collider != null ? Color.green : Color.red;
+        Gizmos.DrawRay(rb != null ? (Vector3)rb.position : transform.position, Vector2.right * longitudDerecha);
 
         Vector2 groundOrigin = (Vector2)transform.position + Vector2.down * rayAbajoOffset;
         Gizmos.color = Application.isPlaying && groundHit.collider != null ? Color.green : Color.red;
@@ -576,7 +593,7 @@ public class PlayerMovement : MonoBehaviour
         if (cam != null)
         {
             float frontX = cam.ViewportToWorldPoint(new Vector3(frontLimitPercent, 0f, 0f)).x;
-            float backX  = cam.ViewportToWorldPoint(new Vector3(backLimitPercent,  0f, 0f)).x;
+            float backX = cam.ViewportToWorldPoint(new Vector3(backLimitPercent, 0f, 0f)).x;
             Gizmos.color = Color.cyan;
             Gizmos.DrawLine(new Vector3(frontX, -10f, 0f), new Vector3(frontX, 10f, 0f));
             Gizmos.color = Color.yellow;

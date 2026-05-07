@@ -3,6 +3,10 @@ using System.Collections.Generic;
 
 public class GroundGenerator : MonoBehaviour
 {
+    [Header("Initial Segment")]
+    [SerializeField] GroundSegment initialSegmentPrefab;
+    [SerializeField] int initialSegmentCount = 2;
+
     [Header("Segments")]
     [SerializeField] GroundSegment[] segmentPrefabs;
     [SerializeField] int activeSegmentCount = 3;
@@ -19,6 +23,14 @@ public class GroundGenerator : MonoBehaviour
     {
         float spawnX = cam.ViewportToWorldPoint(new Vector3(0f, 0f, 0f)).x;
 
+        // Segmentos iniciales fijos
+        for (int i = 0; i < initialSegmentCount; i++)
+        {
+            GroundSegment segment = SpawnSpecificSegment(initialSegmentPrefab, spawnX);
+            spawnX += segment.width;
+        }
+
+        // Segmentos aleatorios hasta cubrir la pantalla
         for (int i = 0; i < activeSegmentCount; i++)
         {
             GroundSegment segment = SpawnSegment(spawnX);
@@ -59,12 +71,25 @@ public class GroundGenerator : MonoBehaviour
         }
     }
 
+    GroundSegment SpawnSpecificSegment(GroundSegment prefab, float x)
+    {
+        GroundSegment segment = Instantiate(prefab,
+            new Vector3(x, groundYOffset, 0f),
+            Quaternion.identity);
+
+        activeSegments.Add(segment);
+        AddToWorldScroller(segment);
+        return segment;
+    }
+
     GroundSegment SpawnSegment(float x)
     {
         GroundSegment prefab = PickRandomSegment();
         GroundSegment segment = Instantiate(prefab,
             new Vector3(x, groundYOffset, 0f),
             Quaternion.identity);
+
+        Debug.Log($"Spawneado: {prefab.gameObject.name} en X: {x:F2}");
 
         activeSegments.Add(segment);
         AddToWorldScroller(segment);

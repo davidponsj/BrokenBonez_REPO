@@ -17,16 +17,43 @@
                 {
                     "name": "Rotate",
                     "type": "Value",
-                    "id": "b7c15c6f-7143-4a02-af60-90392820e5d3",
-                    "expectedControlType": "Vector2",
+                    "id": "c197d9b9-f978-4dcc-8ea7-7b2edc44d18a",
+                    "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Combos",
+                    "name": "Trick1",
                     "type": "Button",
-                    "id": "90df6655-17ae-4cc3-a42a-a1ca3009bee6",
+                    "id": "4a95f542-8767-43c9-99af-c94c5940ab5e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Trick2",
+                    "type": "Button",
+                    "id": "622d90bd-342f-4784-a02b-e9a689e7e084",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Trick3",
+                    "type": "Button",
+                    "id": "e95510f1-ef66-4e17-9b8d-abe32bb9e313",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Trick4",
+                    "type": "Button",
+                    "id": "58957b80-50ec-4108-acfb-6546a70eee5c",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -34,17 +61,6 @@
                 }
             ],
             "bindings": [
-                {
-                    "name": "",
-                    "id": "766655d5-ccb1-489b-ab29-b9079ec61969",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Combos",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
                 {
                     "name": "1D Axis",
                     "id": "c951a05f-943c-4972-9d0a-bedd7d1bf9e5",
@@ -70,7 +86,7 @@
                 {
                     "name": "positive",
                     "id": "e6bc022d-fd44-44a2-a222-2d58d4a03845",
-                    "path": "<Keyboard>/w",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -79,7 +95,40 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "1D Axis",
+                    "name": "Gatillos",
+                    "id": "f8b80bdf-b42f-40df-9d62-0de915466029",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Rotate",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "457d8932-b37d-47c8-9486-913c18567bee",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Rotate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "adbecb45-1712-4972-b8a6-fabc99bb4a7a",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Rotate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Teclas",
                     "id": "e9cb291a-3641-468e-b83d-988371011469",
                     "path": "1DAxis",
                     "interactions": "",
@@ -110,6 +159,94 @@
                     "action": "Rotate",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "b1600d5c-3a7b-4d59-9b97-3cf0e1322b1f",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Trick1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3287cc01-46d9-401d-8167-27aed61fe178",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Trick1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cf0cda3b-a3a3-4837-acc2-f2172ceee461",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Trick2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "381d948b-4908-464a-b539-a785a4a91f17",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Trick2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fd5312a9-834a-4f56-8cb7-49a8201f9d85",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Trick3",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6dd3a2bc-de44-49da-9734-ebdfb5f6b109",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Trick3",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "57943960-bbf5-444a-b5e1-283a22cda36e",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Trick4",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a4c6e8bb-1800-44d6-8174-32d528db127e",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Trick4",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }
