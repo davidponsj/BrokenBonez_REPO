@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Movement")]
     public float horizontalSpeed = 5f;
+
     [SerializeField] float gravity = 20f;
     [SerializeField] float passiveRetreatSpeed = 2f;
     [SerializeField] float brakeRetreatSpeed = 5f;
@@ -74,6 +75,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float landingSpeedMultiplier = 6f;
 
     [Header("References")]
+    [SerializeField] GameOverScreen gameOverScreen; // en la región References
     [SerializeField] Camera cam;
     [SerializeField] GameObject der;
     [SerializeField] WorldScroller worldScroller;
@@ -122,6 +124,18 @@ public class PlayerMovement : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+    }
+
+    void Start()
+    {
+        if (ScoreManager.Instance != null)
+            ScoreManager.Instance.OnGameOver += OnBail;
+    }
+
+    void OnDestroy()
+    {
+        if (ScoreManager.Instance != null)
+            ScoreManager.Instance.OnGameOver -= OnBail;
     }
 
     void FixedUpdate()
@@ -530,6 +544,9 @@ public class PlayerMovement : MonoBehaviour
         yield return new WaitForSecondsRealtime(1f);
 
         playerAnimator.FreezeAnimator();
+
+        // Avisar al ScoreManager por si no lo ha lanzado él (muerte por ángulo/wobble)
+        ScoreManager.Instance?.ForceGameOver();
     }
 
     IEnumerator SnapToZero()

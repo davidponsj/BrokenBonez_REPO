@@ -3,7 +3,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
-using UnityEngine.InputSystem;
 
 public class GameOverScreen : MonoBehaviour
 {
@@ -26,6 +25,8 @@ public class GameOverScreen : MonoBehaviour
     int finalScore;
     bool inputActive = false;
 
+    GameOver input;
+
     void Awake()
     {
         gameOverPanel.SetActive(false);
@@ -34,12 +35,43 @@ public class GameOverScreen : MonoBehaviour
             scoreManager.OnGameOver += OnGameOver;
 
         btnConfirmName.onClick.AddListener(ConfirmName);
+
+        input = new GameOver();
+
+        input.UI.Izq.performed += _ =>
+        {
+            if (!inputActive) return;
+            selectedIndex = Mathf.Max(0, selectedIndex - 1);
+            UpdateLetterDisplay();
+        };
+        input.UI.Der.performed += _ =>
+        {
+            if (!inputActive) return;
+            selectedIndex = Mathf.Min(2, selectedIndex + 1);
+            UpdateLetterDisplay();
+        };
+        input.UI.Arriba.performed += _ =>
+        {
+            if (!inputActive) return;
+            letters[selectedIndex] = (char)(((letters[selectedIndex] - 'A' + 1) % 26) + 'A');
+            UpdateLetterDisplay();
+        };
+        input.UI.Abajo.performed += _ =>
+        {
+            if (!inputActive) return;
+            letters[selectedIndex] = (char)(((letters[selectedIndex] - 'A' - 1 + 26) % 26) + 'A');
+            UpdateLetterDisplay();
+        };
     }
+
+    void OnEnable() => input?.Enable();
+    void OnDisable() => input?.Disable();
 
     void OnDestroy()
     {
         if (scoreManager != null)
             scoreManager.OnGameOver -= OnGameOver;
+        input?.Dispose();
     }
 
     void OnGameOver()
@@ -51,45 +83,14 @@ public class GameOverScreen : MonoBehaviour
     IEnumerator GameOverSequence()
     {
         yield return new WaitForSecondsRealtime(1.5f);
-
         if (hud != null) hud.SetActive(false);
-
         gameOverPanel.SetActive(true);
-
         if (puntuacionText != null)
             puntuacionText.text = $"{finalScore}";
-
+        letters = new char[3] { 'A', 'A', 'A' };
+        selectedIndex = 0;
         inputActive = true;
         UpdateLetterDisplay();
-    }
-
-    void Update()
-    {
-        if (!inputActive) return;
-
-        if (Keyboard.current.leftArrowKey.wasPressedThisFrame)
-        {
-            selectedIndex = Mathf.Max(0, selectedIndex - 1);
-            UpdateLetterDisplay();
-        }
-
-        if (Keyboard.current.rightArrowKey.wasPressedThisFrame)
-        {
-            selectedIndex = Mathf.Min(2, selectedIndex + 1);
-            UpdateLetterDisplay();
-        }
-
-        if (Keyboard.current.upArrowKey.wasPressedThisFrame)
-        {
-            letters[selectedIndex] = (char)(((letters[selectedIndex] - 'A' + 1) % 26) + 'A');
-            UpdateLetterDisplay();
-        }
-
-        if (Keyboard.current.downArrowKey.wasPressedThisFrame)
-        {
-            letters[selectedIndex] = (char)(((letters[selectedIndex] - 'A' - 1 + 26) % 26) + 'A');
-            UpdateLetterDisplay();
-        }
     }
 
     void UpdateLetterDisplay()
