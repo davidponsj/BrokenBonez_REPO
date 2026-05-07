@@ -1,22 +1,15 @@
 using System;
 using UnityEngine;
 
-/// <summary>
-/// Singleton. Gestiona la puntuación que funciona como barra de vida.
-/// - Decay pasivo con el tiempo
-/// - Los trucos añaden puntos
-/// - Los fallos quitan puntos
-/// - Si llega a 0 → OnGameOver
-/// </summary>
 public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager Instance { get; private set; }
 
-    [Header("Score / Life Bar")]
-    [SerializeField] float maxScore = 1000f;
-    [SerializeField] float startScore = 500f;
-    [Tooltip("Puntos que se pierden por segundo pasivamente")]
+    [Header("Life Bar")]
+    [SerializeField] float maxLife = 1000f;
+    [SerializeField] float startLife = 500f;
     [SerializeField] float decayPerSecond = 10f;
+    [SerializeField] float crouchDecayPerSecond = 30f;
 
     [Header("Trick Points")]
     [SerializeField] float trick1Points = 100f;
@@ -28,19 +21,23 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] float failEasyPenalty = 150f;
     [SerializeField] float failHardPenalty = 400f;
 
-    // ── Estado público ────────────────────────────────────────────────────────
-    public float CurrentScore { get; private set; }
-    public float MaxScore => maxScore;
+    [Header("References")]
+    [SerializeField] PlayerMovement playerMovement;
+
+    // Estado público
+    public float CurrentLife { get; private set; }
+    public float MaxLife => maxLife;
+    public float TotalPoints { get; private set; }
     public int Multiplier { get; private set; } = 1;
 
-    // Eventos para la UI
-    public event Action<float, float> OnScoreChanged;   // (current, max)
+    // Eventos
+    public event Action<float, float> OnLifeChanged;
+    public event Action<float> OnTotalPointsChanged;
     public event Action<int> OnMultiplierChanged;
     public event Action OnGameOver;
 
     bool gameOver;
 
-    // ── Unity ─────────────────────────────────────────────────────────────────
     void Awake()
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
@@ -49,27 +46,25 @@ public class ScoreManager : MonoBehaviour
 
     void Start()
     {
-        CurrentScore = startScore;
+        CurrentLife = startLife;
+        TotalPoints = 0f;
         Multiplier = 1;
-        NotifyScoreChanged();
+        NotifyAll();
     }
 
     void Update()
     {
         if (gameOver || Time.timeScale == 0f) return;
 
-        ApplyDecay();
+        float decay = playerMovement != null && playerMovement.isCrouching
+            ? crouchDecayPerSecond
+            : decayPerSecond;
+
+        AddLife(-decay * Time.deltaTime);
     }
 
-    // ── Decay ─────────────────────────────────────────────────────────────────
-    void ApplyDecay()
-    {
-        AddScore(-decayPerSecond * Time.deltaTime);
-    }
+    // ── API pública ──────────────────────────────────────────────────────────
 
-    // ── API pública ───────────────────────────────────────────────────────────
-
-    /// <summary>Llama al completar un truco correctamente.</summary>
     public void RegisterTrick(int trickIndex)
     {
         float points = trickIndex switch
@@ -81,38 +76,55 @@ public class ScoreManager : MonoBehaviour
             _ => 0f
         };
 
-        // Trick4 sube el multiplicador además de dar puntos
         if (trickIndex == 4)
         {
             Multiplier++;
             OnMultiplierChanged?.Invoke(Multiplier);
         }
 
-        AddScore(points * Multiplier);
+        float gained = points * Multiplier;
+        AddLife(gained);
+        AddTotalPoints(gained);
     }
 
-    /// <summary>Fallo leve: tiempo casi agotado.</summary>
     public void RegisterFailEasy()
     {
         ResetMultiplier();
-        AddScore(-failEasyPenalty);
+        AddLife(-failEasyPenalty);
     }
 
-    /// <summary>Fallo grave: botón incorrecto, tiempo agotado del todo, aterrizaje malo.</summary>
     public void RegisterFailHard()
     {
         ResetMultiplier();
-        AddScore(-failHardPenalty);
+        AddLife(-failHardPenalty);
     }
 
-    // ── Helpers ───────────────────────────────────────────────────────────────
-    void AddScore(float delta)
+    public void ForceGameOver()
     {
-        CurrentScore = Mathf.Clamp(CurrentScore + delta, 0f, maxScore);
-        NotifyScoreChanged();
+        if (gameOver) return;
+        gameOver = true;
+        OnGameOver?.Invoke();
+    }
 
-        if (CurrentScore <= 0f && !gameOver)
+    // ── Helpers ──────────────────────────────────────────────────────────────
+
+    void AddLife(float delta)
+    {
+        CurrentLife = Mathf.Clamp(CurrentLife + delta, 0f, maxLife);
+        OnLifeChanged?.Invoke(CurrentLife, maxLife);
+
+        if (delta > 0f)
+            AddTotalPoints(delta);
+
+        if (CurrentLife <= 0f && !gameOver)
             TriggerGameOver();
+    }
+
+    void AddTotalPoints(float points)
+    {
+        if (points <= 0f) return;
+        TotalPoints += points;
+        OnTotalPointsChanged?.Invoke(TotalPoints);
     }
 
     void ResetMultiplier()
@@ -122,9 +134,11 @@ public class ScoreManager : MonoBehaviour
         OnMultiplierChanged?.Invoke(Multiplier);
     }
 
-    void NotifyScoreChanged()
+    void NotifyAll()
     {
-        OnScoreChanged?.Invoke(CurrentScore, maxScore);
+        OnLifeChanged?.Invoke(CurrentLife, maxLife);
+        OnTotalPointsChanged?.Invoke(TotalPoints);
+        OnMultiplierChanged?.Invoke(Multiplier);
     }
 
     void TriggerGameOver()
@@ -133,13 +147,13 @@ public class ScoreManager : MonoBehaviour
         OnGameOver?.Invoke();
     }
 
-    /// <summary>Reinicia el estado (útil para restart).</summary>
     public void ResetScore()
     {
         gameOver = false;
-        CurrentScore = startScore;
+        CurrentLife = startLife;
+        TotalPoints = 0f;
         Multiplier = 1;
-        NotifyScoreChanged();
+        NotifyAll();
         OnMultiplierChanged?.Invoke(Multiplier);
     }
 }

@@ -4,45 +4,54 @@ using TMPro;
 
 /// <summary>
 /// SETUP en Inspector:
-/// - trickWindowRoot → TrickWindow (GameObject)
-/// - barVerde        → BarVerde    (Image, Filled, Horizontal, Origin Right) — Trick1 Seguro
-/// - barAzul         → BarAzul     (Image, Filled, Horizontal, Origin Right) — Trick2 Técnico
-/// - barAmarilla     → BarAmarilla (Image, Filled, Horizontal, Origin Right) — Trick3 Freestyle
-/// - barRoja         → BarRoja     (Image, Filled, Horizontal, Origin Right) — Trick4 Agresivo
-/// - scoreFill       → tu Image de relleno de la barra de vida (Filled)
-/// - multiplierText  → TMP_Text opcional para mostrar el multiplicador
-/// - trickManager    → TrickManager del player
-/// - scoreManager    → ScoreManager de la escena
-/// - playerMovement  → PlayerMovement del player
+/// - trickWindowRoot    → TrickWindow (desactivado por defecto)
+/// - barVerde_L/R       → mitad izquierda/derecha de la barra verde   (Trick1)
+/// - barAzul_L/R        → mitad izquierda/derecha de la barra azul    (Trick2)
+/// - barAmarilla_L/R    → mitad izquierda/derecha de la barra amarilla(Trick3)
+/// - barRoja_L/R        → mitad izquierda/derecha de la barra roja    (Trick4)
+///
+/// Cada _L tiene Fill Origin: Left, cada _R tiene Fill Origin: Right.
+/// Cada par ocupa su mitad del RectTransform (anchors 0-0.5 y 0.5-1).
+/// Ambas empiezan con fillAmount=1 y bajan a 0 → efecto de cierre hacia el centro.
 /// </summary>
 public class TrickUI : MonoBehaviour
 {
     [Header("Trick Window")]
     [SerializeField] GameObject trickWindowRoot;
-    [SerializeField] Image barVerde;
-    [SerializeField] Image barAzul;
-    [SerializeField] Image barAmarilla;
-    [SerializeField] Image barRoja;
+
+    [SerializeField] Image barVerde_L;
+    [SerializeField] Image barVerde_R;
+    [SerializeField] Image barAzul_L;
+    [SerializeField] Image barAzul_R;
+    [SerializeField] Image barAmarilla_L;
+    [SerializeField] Image barAmarilla_R;
+    [SerializeField] Image barRoja_L;
+    [SerializeField] Image barRoja_R;
 
     [Header("Score / Life Bar")]
-    [SerializeField] Image scoreFill; // tu Image de relleno directamente
+    [SerializeField] Image scoreFill;
 
     [Header("Multiplier (opcional)")]
     [SerializeField] TMP_Text multiplierText;
+
+    [Header("Total Points")]
+    [SerializeField] TMP_Text totalPointsText;
 
     [Header("References")]
     [SerializeField] TrickManager trickManager;
     [SerializeField] ScoreManager scoreManager;
     [SerializeField] PlayerMovement playerMovement;
 
-    Image barActual;
+    Image barActualL;
+    Image barActualR;
 
     // ── Unity ─────────────────────────────────────────────────────────────────
     void Awake()
     {
         if (scoreManager != null)
         {
-            scoreManager.OnScoreChanged += UpdateScoreBar;
+            scoreManager.OnLifeChanged += UpdateScoreBar;
+            scoreManager.OnTotalPointsChanged += UpdateTotalPoints;
             scoreManager.OnMultiplierChanged += UpdateMultiplier;
             scoreManager.OnGameOver += OnGameOver;
         }
@@ -62,6 +71,7 @@ public class TrickUI : MonoBehaviour
     void Start()
     {
         if (trickWindowRoot != null) trickWindowRoot.SetActive(false);
+        SetAllBarsInactive();
         UpdateMultiplier(1);
     }
 
@@ -69,7 +79,7 @@ public class TrickUI : MonoBehaviour
     {
         if (scoreManager != null)
         {
-            scoreManager.OnScoreChanged -= UpdateScoreBar;
+            scoreManager.OnLifeChanged -= UpdateScoreBar;
             scoreManager.OnMultiplierChanged -= UpdateMultiplier;
             scoreManager.OnGameOver -= OnGameOver;
         }
@@ -93,6 +103,12 @@ public class TrickUI : MonoBehaviour
         scoreFill.fillAmount = max > 0f ? current / max : 0f;
     }
 
+    void UpdateTotalPoints(float total)
+    {
+        if (totalPointsText != null)
+            totalPointsText.text = Mathf.RoundToInt(total).ToString();
+    }
+
     void UpdateMultiplier(int mult)
     {
         if (multiplierText != null)
@@ -111,26 +127,27 @@ public class TrickUI : MonoBehaviour
 
         SetAllBarsInactive();
 
-        barActual = GetBar(trickIndex);
-        if (barActual != null)
-        {
-            barActual.gameObject.SetActive(true);
-            barActual.fillAmount = 1f;
-        }
+        GetBarPair(trickIndex, out barActualL, out barActualR);
+
+        if (barActualL != null) { barActualL.gameObject.SetActive(true); barActualL.fillAmount = 1f; }
+        if (barActualR != null) { barActualR.gameObject.SetActive(true); barActualR.fillAmount = 1f; }
 
         trickWindowRoot.SetActive(true);
     }
 
     void OnTrickTick(float timeLeft, float duration)
     {
-        if (barActual == null) return;
-        barActual.fillAmount = duration > 0f ? Mathf.Clamp01(timeLeft / duration) : 0f;
+        if (duration <= 0f) return;
+        float fill = Mathf.Clamp01(timeLeft / duration);
+        if (barActualL != null) barActualL.fillAmount = fill;
+        if (barActualR != null) barActualR.fillAmount = fill;
     }
 
     void OnTrickClose()
     {
         if (trickWindowRoot != null) trickWindowRoot.SetActive(false);
-        barActual = null;
+        barActualL = null;
+        barActualR = null;
     }
 
     // ── Landing ───────────────────────────────────────────────────────────────
@@ -140,18 +157,25 @@ public class TrickUI : MonoBehaviour
     // ── Helpers ───────────────────────────────────────────────────────────────
     void SetAllBarsInactive()
     {
-        if (barVerde != null) barVerde.gameObject.SetActive(false);
-        if (barAzul != null) barAzul.gameObject.SetActive(false);
-        if (barAmarilla != null) barAmarilla.gameObject.SetActive(false);
-        if (barRoja != null) barRoja.gameObject.SetActive(false);
+        if (barVerde_L != null) barVerde_L.gameObject.SetActive(false);
+        if (barVerde_R != null) barVerde_R.gameObject.SetActive(false);
+        if (barAzul_L != null) barAzul_L.gameObject.SetActive(false);
+        if (barAzul_R != null) barAzul_R.gameObject.SetActive(false);
+        if (barAmarilla_L != null) barAmarilla_L.gameObject.SetActive(false);
+        if (barAmarilla_R != null) barAmarilla_R.gameObject.SetActive(false);
+        if (barRoja_L != null) barRoja_L.gameObject.SetActive(false);
+        if (barRoja_R != null) barRoja_R.gameObject.SetActive(false);
     }
 
-    Image GetBar(int trickIndex) => trickIndex switch
+    void GetBarPair(int trickIndex, out Image left, out Image right)
     {
-        1 => barVerde,
-        2 => barAzul,
-        3 => barAmarilla,
-        4 => barRoja,
-        _ => null
-    };
+        switch (trickIndex)
+        {
+            case 1: left = barVerde_L; right = barVerde_R; break;
+            case 2: left = barAzul_L; right = barAzul_R; break;
+            case 3: left = barAmarilla_L; right = barAmarilla_R; break;
+            case 4: left = barRoja_L; right = barRoja_R; break;
+            default: left = null; right = null; break;
+        }
+    }
 }

@@ -73,6 +73,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float landingSnapSpeed = 10f;
     [SerializeField] float landingSpeedMultiplier = 6f;
 
+
+
     [Header("References")]
     [SerializeField] Camera cam;
     [SerializeField] GameObject der;
@@ -81,6 +83,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] PlayerInputs playerInputs;
     [SerializeField] BoxCollider2D playerCollider;
     [SerializeField] PlayerAnimator playerAnimator;
+
+    [SerializeField] Vector2 normalColliderSize;
+    [SerializeField] Vector2 normalColliderOffset;
+    [SerializeField] Vector2 crouchColliderSize;
+    [SerializeField] Vector2 crouchColliderOffset;
 
     #endregion
 
@@ -127,6 +134,7 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
         UpdateRaycasts();
+        UpdateCrouchCollider();
 
         if (isJumping) TickAscend();
         else if (isFloating) TickFloat();
@@ -139,6 +147,22 @@ public class PlayerMovement : MonoBehaviour
     #endregion
 
     #region Sensing
+
+    void UpdateCrouchCollider()
+    {
+        if (playerCollider == null) return;
+
+        if (isCrouching)
+        {
+            playerCollider.size = crouchColliderSize;
+            playerCollider.offset = crouchColliderOffset;
+        }
+        else
+        {
+            playerCollider.size = normalColliderSize;
+            playerCollider.offset = normalColliderOffset;
+        }
+    }
 
     void UpdateRaycasts()
     {
@@ -530,6 +554,9 @@ public class PlayerMovement : MonoBehaviour
         yield return new WaitForSecondsRealtime(1f);
 
         playerAnimator.FreezeAnimator();
+
+        // Disparar game over para que aparezca la pantalla
+        ScoreManager.Instance?.ForceGameOver();
     }
 
     IEnumerator SnapToZero()

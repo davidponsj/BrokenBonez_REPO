@@ -83,7 +83,10 @@ public class PlayerAnimator : MonoBehaviour
         // ── Aterrizaje ────────────────────────────────────────────────────────
         bool groundedNow = playerMovement.isGrounded;
         if (groundedNow && !wasGrounded)
+        {
             anim.SetTrigger(T_LandGood);
+            wasAccelerating = false; // ← AÑADIR — fuerza re-detección del impulso
+        }
         wasGrounded = groundedNow;
     }
 

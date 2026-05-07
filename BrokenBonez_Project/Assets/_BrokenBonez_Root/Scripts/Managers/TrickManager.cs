@@ -1,22 +1,7 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 
-/// <summary>
-/// Gestiona el sistema de trucos cooperativo.
-/// 
-/// - Cualquiera de los dos jugadores inicia pulsando Trick1-4
-/// - Se detecta P1 (Keyboard) vs P2 (Gamepad) por dispositivo
-/// - El otro jugador confirma pulsando el MISMO botón en la ventana
-/// - Ventana más corta = truco más difícil
-/// 
-/// SETUP:
-/// - Añadir al mismo GameObject que PlayerMovement
-/// - Asignar referencias en el Inspector
-/// - En el PlayerInput (único, Behavior: Unity Events) conectar
-///   OnTrick1..4 a TrickManager.OnTrick1..4
-/// </summary>
 public class TrickManager : MonoBehaviour
 {
     [Header("References")]
@@ -30,12 +15,22 @@ public class TrickManager : MonoBehaviour
     [SerializeField] float windowTrick3 = 1.0f;
     [SerializeField] float windowTrick4 = 0.6f;
 
+    [Header("Fail Easy Thresholds (seconds remaining)")]
+    [Tooltip("Trick1 Seguro — si quedan menos de X segundos al confirmar → FailEasy")]
+    [SerializeField] float failEasyTrick1 = 0.8f;
+    [Tooltip("Trick2 Técnico")]
+    [SerializeField] float failEasyTrick2 = 0.6f;
+    [Tooltip("Trick3 Freestyle")]
+    [SerializeField] float failEasyTrick3 = 0.4f;
+    [Tooltip("Trick4 Agresivo")]
+    [SerializeField] float failEasyTrick4 = 0.2f;
+
+    [Header("Confirm Delay")]
+    [SerializeField] float minConfirmDelay = 0.1f;
+
     // ── Eventos para TrickUI ──────────────────────────────────────────────────
-    /// <summary>(trickIndex 1-4, initiatorIsP1, windowDuration)</summary>
     public System.Action<int, bool, float> OnTrickWindowOpen;
-    /// <summary>(timeRemaining, windowDuration)</summary>
     public System.Action<float, float> OnTrickWindowTick;
-    /// <summary>Ventana cerrada (éxito o fallo)</summary>
     public System.Action OnTrickWindowClose;
 
     // ── Estado interno ────────────────────────────────────────────────────────
@@ -44,18 +39,23 @@ public class TrickManager : MonoBehaviour
     bool initiatedByP1;
     float windowDuration;
     float windowTimer;
-    bool trickLocked;
+    bool trickUsedThisJump;
+    bool wasGrounded;
 
-    // ── Propiedades públicas para UI ──────────────────────────────────────────
-    public bool WindowOpen => windowOpen;
-    public int PendingTrick => pendingTrick;
-    public bool InitiatedByP1 => initiatedByP1;
-    public float WindowTimeLeft => windowDuration - windowTimer;
     public float WindowDuration => windowDuration;
 
     // ── Unity ─────────────────────────────────────────────────────────────────
     void Update()
     {
+        bool groundedNow = playerMovement.isGrounded;
+        if (groundedNow && !wasGrounded)
+        {
+            trickUsedThisJump = false;
+            // Si aterriza con ventana abierta → FailHard
+            if (windowOpen) FailWindow();
+        }
+        wasGrounded = groundedNow;
+
         if (!windowOpen) return;
 
         windowTimer += Time.deltaTime;
@@ -65,32 +65,19 @@ public class TrickManager : MonoBehaviour
             FailWindow();
     }
 
-    // ── Input Actions — conectar desde PlayerInput en el Inspector ────────────
-    // Un solo PlayerInput con bindings de teclado Y mando en cada acción.
-    // Detectamos quién pulsó por el tipo de dispositivo.
-
-    public void OnTrick1(InputAction.CallbackContext ctx)
-    {
-        if (ctx.performed) HandleInput(1, IsKeyboard(ctx));
-    }
-    public void OnTrick2(InputAction.CallbackContext ctx)
-    {
-        if (ctx.performed) HandleInput(2, IsKeyboard(ctx));
-    }
-    public void OnTrick3(InputAction.CallbackContext ctx)
-    {
-        if (ctx.performed) HandleInput(3, IsKeyboard(ctx));
-    }
-    public void OnTrick4(InputAction.CallbackContext ctx)
-    {
-        if (ctx.performed) HandleInput(4, IsKeyboard(ctx));
-    }
+    // ── Input Actions ─────────────────────────────────────────────────────────
+    public void OnTrick1(InputAction.CallbackContext ctx) { if (ctx.performed) HandleInput(1, IsKeyboard(ctx)); }
+    public void OnTrick2(InputAction.CallbackContext ctx) { if (ctx.performed) HandleInput(2, IsKeyboard(ctx)); }
+    public void OnTrick3(InputAction.CallbackContext ctx) { if (ctx.performed) HandleInput(3, IsKeyboard(ctx)); }
+    public void OnTrick4(InputAction.CallbackContext ctx) { if (ctx.performed) HandleInput(4, IsKeyboard(ctx)); }
 
     // ── Lógica central ────────────────────────────────────────────────────────
     void HandleInput(int trickIndex, bool isP1)
     {
-        if (!playerMovement.isFloating && !playerMovement.isOnRamp) return;
-        if (trickLocked) return;
+        Debug.Log($"tick={windowTimer:F2} isJumping={playerMovement.isJumping} isFloating={playerMovement.isFloating} trickUsed={trickUsedThisJump} windowOpen={windowOpen} confirmDelay={windowTimer < minConfirmDelay} isConfirmer={windowOpen && (isP1 != initiatedByP1)}");
+
+        if (!playerMovement.isJumping && !playerMovement.isFloating && !playerMovement.isFalling) return;
+        if (trickUsedThisJump) return;
 
         if (!windowOpen)
         {
@@ -98,14 +85,15 @@ public class TrickManager : MonoBehaviour
         }
         else
         {
-            bool isConfirmer = (isP1 != initiatedByP1);
+            if (windowTimer < minConfirmDelay) return;
 
-            if (!isConfirmer) return; // el mismo que inició vuelve a pulsar, ignorar
+            bool isConfirmer = (isP1 != initiatedByP1);
+            if (!isConfirmer) return;
 
             if (trickIndex == pendingTrick)
                 CompleteWindow();
             else
-                FailWindowHard(); // botón incorrecto
+                FailWindowHard();
         }
     }
 
@@ -122,20 +110,30 @@ public class TrickManager : MonoBehaviour
 
     void CompleteWindow()
     {
-        trickLocked = true;
         windowOpen = false;
+        trickUsedThisJump = true;
         OnTrickWindowClose?.Invoke();
 
-        scoreManager.RegisterTrick(pendingTrick);
-        TriggerTrickAnimation(pendingTrick);
+        float timeLeft = windowDuration - windowTimer;
+        float easyThresh = GetFailEasyThreshold(pendingTrick);
 
-        StartCoroutine(UnlockAfterFrame());
+        if (timeLeft <= easyThresh)
+        {
+            scoreManager.RegisterFailEasy();
+            playerAnimator.TriggerFailEasy();
+        }
+        else
+        {
+            scoreManager.RegisterTrick(pendingTrick);
+            TriggerTrickAnimation(pendingTrick);
+        }
     }
 
     void FailWindow()
     {
-        // Tiempo agotado completamente → FailHard
+        if (!windowOpen) return;
         windowOpen = false;
+        trickUsedThisJump = true;
         OnTrickWindowClose?.Invoke();
 
         scoreManager.RegisterFailHard();
@@ -144,8 +142,8 @@ public class TrickManager : MonoBehaviour
 
     void FailWindowHard()
     {
-        // Botón incorrecto → FailHard
         windowOpen = false;
+        trickUsedThisJump = true;
         OnTrickWindowClose?.Invoke();
 
         scoreManager.RegisterFailHard();
@@ -153,10 +151,7 @@ public class TrickManager : MonoBehaviour
     }
 
     // ── Helpers ───────────────────────────────────────────────────────────────
-    static bool IsKeyboard(InputAction.CallbackContext ctx)
-    {
-        return ctx.control.device is Keyboard;
-    }
+    static bool IsKeyboard(InputAction.CallbackContext ctx) => ctx.control.device is Keyboard;
 
     float GetWindowDuration(int trickIndex) => trickIndex switch
     {
@@ -165,6 +160,15 @@ public class TrickManager : MonoBehaviour
         3 => windowTrick3,
         4 => windowTrick4,
         _ => windowTrick1
+    };
+
+    float GetFailEasyThreshold(int trickIndex) => trickIndex switch
+    {
+        1 => failEasyTrick1,
+        2 => failEasyTrick2,
+        3 => failEasyTrick3,
+        4 => failEasyTrick4,
+        _ => 0.4f
     };
 
     void TriggerTrickAnimation(int trickIndex)
@@ -177,12 +181,4 @@ public class TrickManager : MonoBehaviour
             case 4: playerAnimator.TriggerTrick4(); break;
         }
     }
-
-    IEnumerator UnlockAfterFrame()
-    {
-        yield return null;
-        trickLocked = false;
-    }
-
-
 }
