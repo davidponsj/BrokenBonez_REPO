@@ -84,6 +84,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] BoxCollider2D playerCollider;
     [SerializeField] PlayerAnimator playerAnimator;
 
+    [SerializeField] Vector2 normalColliderSize;
+    [SerializeField] Vector2 normalColliderOffset;
+    [SerializeField] Vector2 crouchColliderSize;
+    [SerializeField] Vector2 crouchColliderOffset;
+
     #endregion
 
     #region Public State
@@ -141,6 +146,7 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
         UpdateRaycasts();
+        UpdateCrouchCollider();
 
         if (isJumping) TickAscend();
         else if (isFloating) TickFloat();
@@ -457,6 +463,22 @@ public class PlayerMovement : MonoBehaviour
             OnLanded?.Invoke(safe);
             OnLand();
             justJumped = false;
+        }
+    }
+
+    void UpdateCrouchCollider()
+    {
+        if (playerCollider == null) return;
+
+        if (isCrouching)
+        {
+            playerCollider.size = crouchColliderSize;
+            playerCollider.offset = crouchColliderOffset;
+        }
+        else
+        {
+            playerCollider.size = normalColliderSize;
+            playerCollider.offset = normalColliderOffset;
         }
     }
 
