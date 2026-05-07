@@ -105,6 +105,7 @@ public class GameOverScreen : MonoBehaviour
 
     void ConfirmName()
     {
+        AudioManager.Instance?.PlayButton();
         inputActive = false;
         string playerName = new string(letters);
         LeaderboardManager.Instance?.AddEntry(playerName, finalScore);

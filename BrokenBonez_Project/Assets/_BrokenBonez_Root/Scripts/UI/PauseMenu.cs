@@ -42,6 +42,7 @@ public class PauseMenu : MonoBehaviour
 
     public void Reanudar()
     {
+        AudioManager.Instance?.PlayButton();
         isPaused = false;
         Time.timeScale = 1f;
         pausePanel.SetActive(false);
@@ -50,6 +51,7 @@ public class PauseMenu : MonoBehaviour
 
     void SalirAlMenu()
     {
+        AudioManager.Instance?.PlayButton();
         Time.timeScale = 1f;
         SceneManager.LoadScene(0);
     }

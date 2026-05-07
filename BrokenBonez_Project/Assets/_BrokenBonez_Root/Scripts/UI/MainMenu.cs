@@ -85,6 +85,7 @@ public class MainMenu : MonoBehaviour
     // ── Botones ──────────────────────────────────────────────────────────────
     void OnJugar()
     {
+        AudioManager.Instance?.PlayButton();
         if (transitioning) return;
         transitioning = true;
         StartCoroutine(PlaySequence());
@@ -92,6 +93,7 @@ public class MainMenu : MonoBehaviour
 
     void OnOpciones()
     {
+        AudioManager.Instance?.PlayButton();
         if (transitioning) return;
         panelOpciones.SetActive(true);
         btnJugar.interactable = false;
@@ -101,6 +103,7 @@ public class MainMenu : MonoBehaviour
 
     public void CerrarOpciones()
     {
+        AudioManager.Instance?.PlayButton();
         panelOpciones.SetActive(false);
         btnJugar.interactable = true;
         btnOpciones.interactable = true;
@@ -109,6 +112,7 @@ public class MainMenu : MonoBehaviour
 
     void OnSalir()
     {
+        AudioManager.Instance?.PlayButton();
         if (transitioning) return;
         Application.Quit();
     }

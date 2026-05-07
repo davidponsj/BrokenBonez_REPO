@@ -124,6 +124,7 @@ public class TrickManager : MonoBehaviour
         }
         else
         {
+            AudioManager.Instance?.PlayTrick();  // ← añade aquí
             scoreManager.RegisterTrick(pendingTrick);
             TriggerTrickAnimation(pendingTrick);
         }

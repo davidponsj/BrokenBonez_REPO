@@ -533,6 +533,7 @@ public class PlayerMovement : MonoBehaviour
 
     IEnumerator DefeatSequence()
     {
+        AudioManager.Instance?.PlayGameOver();
         Time.timeScale = 0f;
         if (worldScroller != null) worldScroller.enabled = false;
         rb.linearVelocity = Vector2.zero;
